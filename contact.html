@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>お問い合わせ - 株式会社アンカー</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&amp;family=Yu+Gothic+UI:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #F8F9FA;
+        }
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: 'Yu Gothic UI', 'Noto Sans JP', sans-serif;
+        }.file-input-label {
+            cursor: pointer;
+        }
+        .file-input-label:focus-within {
+            outline: 2px solid #2A52BE;
+            outline-offset: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2A52BE",
+                        "accent": "#6C757D",
+                        "light": "#F8F9FA",
+                    },
+                    fontFamily: {
+                        "sans": ['Noto Sans JP', 'sans-serif'],
+                        "display": ['Yu Gothic UI', 'Noto Sans JP', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-light text-gray-800">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 top-0 left-0 bg-white p-4 text-primary underline" href="#main-content">メインコンテンツへスキップ</a>
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-4 sm:px-6 lg:px-10 py-4 bg-white w-full sticky top-0 z-50">
+<a class="flex items-center gap-3 text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-md" href="#">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M25.75 44V26.2H42V17.8H25.75V4H22.25V17.8H6V26.2H22.25V44H25.75Z"></path></svg>
+</div>
+<h2 class="text-gray-900 text-lg font-bold leading-tight tracking-[-0.015em] font-display">株式会社アンカー</h2>
+</a>
+<div class="hidden lg:flex flex-1 justify-end items-center gap-6">
+<nav aria-label="メインナビゲーション" class="flex items-center gap-9">
+<a class="text-gray-900 text-sm font-medium leading-normal hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">トップページ</a>
+<a class="text-gray-900 text-sm font-medium leading-normal hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">事業内容</a>
+<a class="text-gray-900 text-sm font-medium leading-normal hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">会社概要</a>
+<a class="text-gray-900 text-sm font-medium leading-normal hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">ニュース</a>
+<a aria-current="page" class="text-primary text-sm font-bold leading-normal rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">お問い合わせ</a>
+</nav>
+<div class="flex items-center gap-4 ml-4">
+<button aria-label="サイト内検索" class="text-gray-900 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<div class="text-sm">
+<a class="text-gray-900 font-medium hover:text-primary p-1 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">日本語</a>
+<span class="text-accent mx-1">/</span>
+<a class="text-accent hover:text-primary p-1 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">English</a>
+</div>
+</div>
+</div>
+<button class="lg:hidden text-gray-900 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<nav class="w-full bg-white border-b border-gray-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center py-3 text-sm text-accent">
+<a class="hover:text-primary" href="#">ホーム</a>
+<span class="mx-2">&gt;</span>
+<span class="text-gray-900 font-medium">お問い合わせ</span>
+</div>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24" id="main-content">
+<div class="flex flex-col items-center">
+<div class="w-full text-center mb-12 md:mb-16">
+<h1 class="text-gray-900 text-4xl sm:text-5xl font-bold leading-tight tracking-[-0.033em] font-display">お問い合わせ</h1>
+<p class="mt-4 text-accent text-base sm:text-lg font-normal leading-normal max-w-2xl mx-auto">サービスに関するご質問、ご相談などお気軽にお問い合わせください。</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 w-full">
+<div class="lg:col-span-3 bg-white p-8 sm:p-10 rounded-xl shadow-sm border border-gray-200">
+<form class="flex flex-col gap-6">
+<label class="flex flex-col w-full">
+<p class="text-gray-900 text-base font-medium leading-normal pb-2">お名前<span class="text-red-500 ml-1">*</span></p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-white h-14 placeholder:text-accent p-[15px] text-base font-normal leading-normal transition-transform duration-200 ease-in-out focus:scale-[1.02]" placeholder="山田 太郎" required="" value=""/>
+</label>
+<label class="flex flex-col w-full">
+<p class="text-gray-900 text-base font-medium leading-normal pb-2">メールアドレス<span class="text-red-500 ml-1">*</span></p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-white h-14 placeholder:text-accent p-[15px] text-base font-normal leading-normal transition-transform duration-200 ease-in-out focus:scale-[1.02]" placeholder="email@example.com" required="" type="email" value=""/>
+</label>
+<label class="flex flex-col w-full">
+<p class="text-gray-900 text-base font-medium leading-normal pb-2">お問い合わせ内容<span class="text-red-500 ml-1">*</span></p>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-white min-h-40 placeholder:text-accent p-[15px] text-base font-normal leading-normal transition-transform duration-200 ease-in-out focus:scale-[1.02]" placeholder="お問い合わせ内容をご記入ください" required=""></textarea>
+</label>
+<div class="flex flex-col w-full">
+<p class="text-gray-900 text-base font-medium leading-normal pb-2">添付ファイル</p>
+<label class="file-input-label flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg bg-light hover:bg-gray-100 transition-colors">
+<div class="flex flex-col items-center justify-center pt-5 pb-6">
+<span class="material-symbols-outlined text-accent text-4xl">cloud_upload</span>
+<p class="mb-2 text-sm text-accent"><span class="font-semibold text-primary">クリックしてファイルを選択</span>またはドラッグ＆ドロップ</p>
+<p class="text-xs text-accent">画像, PDF, Doc (最大5MB)</p>
+</div>
+<input class="sr-only" id="file_upload" type="file"/>
+</label>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<input class="form-checkbox h-5 w-5 rounded-md border-gray-300 text-primary focus:ring-primary" id="privacy" name="privacy" required="" type="checkbox"/>
+<label class="text-sm text-accent" for="privacy">
+<a class="text-primary underline hover:opacity-80 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">プライバシーポリシー</a>に同意する
+                                </label>
+</div>
+<div class="mt-4">
+<div class="flex justify-center items-center w-full h-20 bg-gray-100 border border-gray-300 rounded-lg">
+<p class="text-sm text-accent">CAPTCHA（ボット対策）がここに表示されます</p>
+</div>
+<p class="text-xs text-accent mt-2">このサイトはreCAPTCHAによって保護されており、Googleの<a class="text-primary underline hover:opacity-80" href="#">プライバシーポリシー</a>と<a class="text-primary underline hover:opacity-80" href="#">利用規約</a>が適用されます。</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-6 bg-primary text-white text-lg font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-all duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed mt-2 hover:scale-105 active:scale-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+<span class="truncate">送信する</span>
+</button>
+</form>
+</div>
+<div class="lg:col-span-2 flex flex-col gap-8">
+<div>
+<h3 class="text-2xl font-bold text-gray-900 mb-6 font-display">連絡先</h3>
+<div class="space-y-5">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1">call</span>
+<div>
+<p class="font-semibold text-gray-900 font-display">電話番号</p>
+<a class="text-accent hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1" href="tel:090-3694-8076">090-3694-8076</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1">mail</span>
+<div>
+<p class="font-semibold text-gray-900 font-display">メールアドレス</p>
+<a class="text-accent hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1" href="mailto:hmchoi802@gmail.com">hmchoi802@gmail.com</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1">location_on</span>
+<div>
+<p class="font-semibold text-gray-900 font-display">本社所在地</p>
+<p class="text-accent">〒189-0012<br/>東京都東村山市萩山町2丁目16番地4 105号</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="mt-12 animate-on-scroll" style="animation-delay: 0.4s;">
+<!-- <h3 class="font-heading text-xl font-bold text-center text-primary dark:text-accent-white mb-6">アクセス</h3> -->
+<h3 class="text-2xl font-bold text-gray-900 mb-6 font-display">アクセスマップ</h3>
+<div class="aspect-video w-full rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-accent-gray/50">
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.671566112108!2d139.75239167623588!3d35.66044703080271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bbd900605d1%3A0x19d8e32a35fad36!2z44CSMTA1LTAwMDEg5p2x5Lqs6YO95riv5Yy66JmO44OO5pyo77yR5LiB55uu!5e0!3m2!1sja!2sjp!4v1701389035000!5m2!1sja!2sjp" style="border:0;" width="100%"></iframe>
+</div>
+</div>
+
+
+<div class="mt-8">
+<h3 class="text-2xl font-bold text-gray-900 mb-6 font-display">公式SNSアカウント</h3>
+<p class="text-accent mb-6">最新情報や活動を発信しています。ぜひフォローをお願いします。</p>
+<div class="flex items-center gap-6">
+<a aria-label="Xでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+</svg>
+</a>
+<a aria-label="Facebookでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+<path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+</svg>
+</a>
+<a aria-label="LinkedInでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+<path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93-.94 0-1.62.61-1.62 1.93V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.38.93 3.38 4.4v4.7z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<footer class="w-full bg-white border-t border-gray-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col items-center md:items-start gap-4">
+<a class="flex items-center gap-3 text-gray-900 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M25.75 44V26.2H42V17.8H25.75V4H22.25V17.8H6V26.2H22.25V44H25.75Z"></path></svg>
+</div>
+<h2 class="text-gray-900 text-lg font-bold font-display">株式会社アンカー</h2>
+</a>
+<div class="flex items-center gap-4 mt-2">
+<a aria-label="Xでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+</svg>
+</a>
+<a aria-label="Facebookでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+</svg>
+</a>
+<a aria-label="LinkedInでフォロー" class="text-accent hover:text-primary transition-colors rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 p-1" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93-.94 0-1.62.61-1.62 1.93V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.38.93 3.38 4.4v4.7z"></path>
+</svg>
+</a>
+</div>
+</div>
+
+<div></div>
+</div>
+<div class="border-t border-gray-200 mt-8 pt-8 flex flex-col-reverse md:flex-row items-center justify-between gap-4">
+<p class="text-sm text-accent">© 2025 株式会社アンカー. All rights reserved.</p>
+<div class="flex items-center gap-6 text-sm">
+<a class="text-accent hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">プライバシーポリシー</a>
+<a class="text-accent hover:text-primary rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" href="#">サイトマップ</a>
+</div>
+</div>
+</div>
+</footer>
+<button class="fixed bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 flex items-center gap-2">
+<span class="material-symbols-outlined">feedback</span>
+<span class="hidden sm:inline text-sm font-medium">ご意見・ご感想</span>
+</button>
+</div>
+</body></html>

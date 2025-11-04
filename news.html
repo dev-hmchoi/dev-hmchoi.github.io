@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="light" lang="ja"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>株式会社アンカー - ニュース一覧</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans+JP:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1193d4",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101c22",
+            "card-light": "#ffffff",
+            "card-dark": "#1a2a33",
+            "text-light": "#111618",
+            "text-dark": "#f0f3f4",
+            "text-muted-light": "#617c89",
+            "text-muted-dark": "#9cb0bb"
+          },
+          fontFamily: {
+            "display": ["Newsreader", "Noto Sans JP", "sans-serif"],
+            "sans": ["Noto Sans JP", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex w-full justify-center border-b border-solid border-gray-200/80 dark:border-gray-700/80 bg-card-light/80 dark:bg-card-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center justify-between whitespace-nowrap px-4 md:px-10 py-3 w-full max-w-6xl">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-3" href="#">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] font-display">株式会社アンカー</h2>
+</a>
+</div>
+<div class="hidden md:flex flex-1 justify-end items-center gap-8">
+<nav class="flex items-center gap-9">
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">トップページ</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">事業内容</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">会社概要</a>
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="#">ニュース</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">お問い合わせ</a>
+</nav>
+</div>
+<button class="md:hidden flex items-center justify-center size-10 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-5 sm:py-10 px-4">
+<div class="layout-content-container flex flex-col max-w-6xl flex-1 gap-6">
+<div class="flex flex-col gap-2 p-4 text-center">
+<h1 class="text-text-light dark:text-text-dark text-4xl font-black leading-tight tracking-[-0.033em] font-display">ニュース</h1>
+<p class="text-text-muted-light dark:text-text-muted-dark">株式会社アンカーの最新情報をお届けします。</p>
+</div>
+<div class="flex flex-col md:flex-row gap-4 px-4 py-3">
+<div class="flex-grow">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-text-muted-light dark:text-text-muted-dark flex border-none bg-card-light dark:bg-card-dark items-center justify-center pl-4 rounded-l-lg border-r-0 shadow-sm">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-card-light dark:bg-card-dark h-full placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark px-4 pl-2 text-base font-normal leading-normal shadow-sm" placeholder="キーワードで検索" value=""/>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-2">
+<button class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-primary text-white pl-4 pr-4 transition-transform hover:scale-105 shadow">
+<p class="text-sm font-medium leading-normal">すべて</p>
+</button>
+<button class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-card-light dark:bg-card-dark pl-4 pr-4 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-colors shadow-sm">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">プレスリリース</p>
+</button>
+<button class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-card-light dark:bg-card-dark pl-4 pr-4 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-colors shadow-sm">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">製品情報</p>
+</button>
+<button class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-card-light dark:bg-card-dark pl-4 pr-4 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-colors shadow-sm">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">イベント</p>
+</button>
+<button class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-card-light dark:bg-card-dark pl-4 pr-4 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-colors shadow-sm">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">お知らせ</p>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="Abstract image representing the new product 'Anchor Pro X'" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw8G7i3hoW7PQl3rjCavC4cozkePdscmkkJ9Ta-bj1UGBU9vaWlSPt_wRzJXM9NmpqumcSD1YLzFovTrzv0h8_toSFDfUx23CanVUnx5Foi0XMaAgFQbR0ArNCvoiEwwaS4axXs9MK1yJ1jxOG4OHorQtXZ7M7UMNgmffqKXn4U1m09APSVfgjdBooWISjRL1RVKZzU_iETYGLX1ASunGmenEpQykwS11L53tejD8HIM8lD-ZNNYlPQp78R0CL4zMWlM0NLdrp6O7N"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2023年10月26日</p>
+<span class="text-xs font-semibold text-primary bg-primary/20 px-2 py-1 rounded-full">製品情報</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">新製品「Anchor Pro X」の発売に関するお知らせ</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">本日、株式会社アンカーは、最新の機能を搭載した革新的な新製品「Anchor Pro X」を正式に発表いたしました。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="Business professionals in a meeting room" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBicEfQGJEOYqipHV3Qdl8t_R9XE52Hb0X08lln1cPzBwwOmS0m4rCPDRgfLdKXpKtN5ZokAySi6RzwTi5vaW6O07K8vqQeu5Ml8N-nGU76o62kQE3kfd8BBqiIWe9BlJuMPM14dCZPvhv077n7OnmvRR2HcKe4jovsYN5z-IgcP4OM1nCzkyavPUpLpQOZbCndml-G9iCGvhSJd53MDOTNwTawkNgb-ezL1wZ7PKy5BDKZeT1qOHOk8ZehivzC0j3kClucCbMVP4Sw"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2023年09月15日</p>
+<span class="text-xs font-semibold text-green-600 dark:text-green-400 bg-green-500/20 px-2 py-1 rounded-full">プレスリリース</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">Tech Summit 2023への出展について</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">弊社は、来月開催される「Tech Summit 2023」にて、最新のソリューションを展示いたします。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="Close-up of a server rack with blinking lights" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIq89rBpORtCFD0sM5sRcgN9HJj-JGya-Zty3bsppsrK3mMinRlF0y11uq0qFKWk4xk1pDRom83lOxp7H1BHgrlnoLtVoyyP8siTJ8SW-jbmEzSWlGvOudj1FN1QYNwjhZX0afLZmsLkm2OFQ5BgvIDXRngTUAFck_6BPZncZ1MbRsN9KHOBCg-B5UfOfkvsROrUB4zMt8zQUen-N0MZpjSjQmcJD1tn-hRhoMaLM7WaL--N8-oj7sGRJvHlBVmNnlUuuQMbmawiAA"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2023年08月01日</p>
+<span class="text-xs font-semibold text-orange-600 dark:text-orange-400 bg-orange-500/20 px-2 py-1 rounded-full">お知らせ</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">サーバーメンテナンスのお知らせ</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">サービスの品質向上のため、下記の時間帯でサーバーメンテナンスを実施いたします。ご不便をおかけいたします。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="People collaborating around a whiteboard" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAm_jebT_XgEN5iqarfUUdAh5EJK1aiBfT6rMl7DYX4zoJFXuTWXIcYdQJ40WgV5e5MESbwzgv3aj4vr9VLSGic5Y7j82LiOzRzvMuMfoMzwB2Ym5PanE3ADYoR1zcMKv69kvovWfVocP9l89u0j0_ZJWnksr9Xbn4ZxRaIpwZiKCOSS_L-6nMU1URx0rqwN76TwxdzV-BMpd5WhIkT-tpKSaTBj009qM96Eg4bkE0PkJOvvrAwGDdAzkxUCPHIEYc3B8Ipul_1AME"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2025年07月20日</p>
+<span class="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-500/20 px-2 py-1 rounded-full">イベント</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">第5回 技術交流セミナー開催レポート</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">先月開催しました技術交流セミナーには多数のご参加をいただき、誠にありがとうございました。当日の様子をレポートします。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="A modern office building exterior" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU3XiDYhTQqcnJYmIBI4kXUBJIcmSpj-A4XqU2R4COMss8gZ4_8jACyEvHTUaI-Qh31_hoCmHE_LbWqEpEVvvaa2hUB_ZKgAzxSKQPC1usFS9B9IMuh19T9xiIokHwc59HPyfWeK8cHA-MGfGSFNWcFIoh2oT3n65qW4cRM5QINatdp0F1IsC5ELkVpNDCiCCP9PNKFS2QsEwb7z8PNBcpMXGwtA5iVCYsgSD8iRLhtIQvaRmcVIJgmXnJ4-HDQX3Ov954aO-tblru"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2023年06月05日</p>
+<span class="text-xs font-semibold text-green-600 dark:text-green-400 bg-green-500/20 px-2 py-1 rounded-full">プレスリリース</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">新オフィスへの移転完了のお知らせ</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">事業拡大に伴い、本社を移転いたしました。新しい環境で、社員一同さらなる努力を重ねてまいります。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+<a class="flex flex-col gap-4 p-4 rounded-xl bg-card-light dark:bg-card-dark shadow-sm hover:shadow-lg transition-shadow duration-300 group" href="news_detail.html">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg overflow-hidden">
+<img alt="Abstract blue and white digital waves pattern" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPug5ixIZlQ2qSALuzVspFb6E1uRLgVQSBFx4ZNb5uW_7AsmQx_mrHMjSHrXk5hkw632dAIjhK2Q8rGQNwaLOyKOX0Zu8KmAKNUKWsfnthDPiuxjrLetsrWOTSEiDU-Z8xq4VBgiZxmB0oND3hSwiyeFLkR04XJGlDe3ohNO2qoItc4K_ocFYQbEBZ-3woMKfCgPTal6DjcX2eQXv2nwyqlEgl0HaaHyyOAbFX87vwqXEhVDO6QtCFYUfsuPblkWAF4mQIkgrXZJU_"/>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-4">
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">2023年05月10日</p>
+<span class="text-xs font-semibold text-primary bg-primary/20 px-2 py-1 rounded-full">製品情報</span>
+</div>
+<h3 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight group-hover:text-primary transition-colors">「Anchor Pro V2」ソフトウェアアップデート</h3>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal mt-1 flex-grow">既存製品「Anchor Pro V2」の機能向上を目的としたソフトウェアアップデートをリリースしました。</p>
+<div class="mt-auto pt-2 text-primary font-semibold text-sm flex items-center gap-1">
+                  続きを読む <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+<div class="flex justify-center p-4 mt-8">
+<button class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors shadow">
+<span class="truncate">さらに読み込む</span>
+</button>
+</div>
+</div>
+</main>
+<footer class="w-full flex justify-center bg-card-light dark:bg-card-dark border-t border-gray-200/80 dark:border-gray-700/80">
+<div class="w-full max-w-6xl px-4 md:px-10 py-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-3" href="#">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] font-display">株式会社アンカー</h2>
+</a>
+</div>
+<p class="text-text-muted-light dark:text-text-muted-dark text-sm">© 2024 株式会社アンカー. All rights reserved.</p>
+</div>
+<div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+<nav class="flex flex-col md:flex-row items-start gap-4 md:gap-8">
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">プライバシーポリシー</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">サイトマップ</a>
+</nav>
+<div class="flex items-center gap-4">
+<a aria-label="X social media link" class="text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.78,6.34 21.05,6.58 20.28,6.69C21.08,6.23 21.69,5.46 22,4.5C21.26,4.93 20.45,5.25 19.6,5.43C18.89,4.66 17.84,4.13 16.69,4.13C14.5,4.13 12.7,5.92 12.7,8.11C12.7,8.41 12.73,8.7 12.8,8.98C9.28,8.81 6.13,7.14 3.93,4.57C3.58,5.16 3.39,5.84 3.39,6.58C3.39,7.99 4.1,9.22 5.17,9.97C4.5,9.95 3.88,9.77 3.33,9.5V9.55C3.33,11.53 4.76,13.18 6.64,13.56C6.31,13.65 5.96,13.7 5.6,13.7C5.34,13.7 5.09,13.68 4.84,13.63C5.36,15.25 6.88,16.42 8.68,16.45C7.26,17.58 5.48,18.25 3.57,18.25C3.27,18.25 2.98,18.23 2.69,18.19C4.51,19.39 6.68,20.08 9.04,20.08C16.68,20.08 20.3,13.48 20.3,7.62C20.3,7.45 20.3,7.28 20.29,7.11C21.1,6.5 21.84,5.79 22.46,5.01V6Z"></path></svg>
+</a>
+<a aria-label="Facebook social media link" class="text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19,3A2,2 0 0,0 17,1H7A2,2 0 0,0 5,3V17A2,2 0 0,0 7,19H10V13H8V11H10V9C10,7.13 11.4,5.89 13.22,5.89H15V7.91H13.8C13.06,7.91 12.5,8.45 12.5,9.15V11H15L14.75,13H12.5V19H17A2,2 0 0,0 19,17V3Z"></path></svg>
+</a>
+<a aria-label="LinkedIn social media link" class="text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3M8.5,18H6V9H8.5V18M7.25,7.76C6.53,7.76 5.94,7.17 5.94,6.45C5.94,5.73 6.53,5.14 7.25,5.14C7.97,5.14 8.56,5.73 8.56,6.45C8.56,7.17 7.97,7.76 7.25,7.76M18,18H15.5V13.37C15.5,12.16 15.04,11.38 14.07,11.38C13.2,11.38 12.6,11.97 12.35,12.53C12.25,12.72 12.23,12.98 12.23,13.24V18H9.73V9H12.23V10.18C12.8,9.45 13.6,8.8 14.9,8.8C16.72,8.8 18,10.03 18,12.91V18Z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</div>
+
+</body></html>

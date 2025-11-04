@@ -61,23 +61,28 @@
 <body class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
 <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
+
 <header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-white/80 dark:bg-card-dark/80 backdrop-blur-sm">
-<a class="flex items-center gap-3 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
-<div class="size-8 text-primary">
+
+<a class="flex items-center gap-3 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#"></a>
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4ZM20 20V32H14V20H20ZM34 20V32H28V20H34Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
 </div>
-<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] font-heading">株式会社アンカー</h2>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">株式会社アンカー</h2>
+</div>
 </a>
+
+
 <nav aria-label="メインナビゲーション" class="hidden md:flex flex-1 justify-end items-center">
 <div class="flex items-center gap-8">
 <a class="text-sm font-medium leading-normal text-primary hover:opacity-75 transition-opacity font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">トップページ</a>
-<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">事業内容</a>
-<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">会社概要</a>
-<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">ニュース</a>
-<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">お問い合わせ</a>
-<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">プライバシーポリシー</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="business.html">事業内容</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="overview.html">会社概要</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="news.html">ニュース</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="contact.html">お問い合わせ</a>
 <div class="flex items-center gap-2 border-l border-border-light dark:border-border-dark pl-4 ml-2">
 <a class="text-sm font-medium text-primary hover:opacity-75 transition-opacity" href="#">日本語</a>
 <span class="text-slate-400">/</span>
@@ -92,30 +97,30 @@
 <span class="material-symbols-outlined">menu</span>
 </button>
 </header>
+
+
 <main class="flex flex-col flex-1">
-<nav aria-label="breadcrumb" class="bg-card-light dark:bg-card-dark">
-<ol class="flex items-center gap-2 whitespace-nowrap px-4 py-3 md:px-10">
-<li class="flex items-center gap-2">
-<a class="flex items-center gap-1 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">
-<span class="material-symbols-outlined !text-base">home</span>
-                                    ホーム
-                                </a>
-</li>
-</ol>
-</nav>
+
 <section class="w-full @container">
-<div class="relative flex min-h-[560px] flex-col gap-6 items-center text-center justify-center px-4 py-16 sm:px-10">
-<div class="absolute inset-0 bg-card-light dark:bg-card-dark z-0"></div>
-<div class="relative z-10 flex flex-col gap-4 text-center items-center max-w-3xl fade-in">
-<h1 class="text-primary text-4xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-5xl font-heading">
-                                信頼をカタチに、未来を築く。
-                            </h1>
-<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed @[480px]:text-lg">
-                                株式会社アンカーは、革新的なソリューションでお客様のビジネスを成功に導き、ゆるぎない信頼関係を築くパートナーです。
-                            </p>
+<div class="p-0 sm:p-4">
+<div class="flex min-h-[520px] sm:min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat sm:rounded-xl items-center text-center justify-center px-4 py-10 sm:px-10" data-alt="Abstract blue and gold geometric shapes creating a professional and modern background" style='background-image: linear-gradient(rgba(0, 51, 102, 0.7) 0%, rgba(0, 21, 41, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsP2bC-77ZbVlntNoZWjKRFhjrb-7ni_kJ_qJWC6sj-U7bn8AO5eD0zrl1EzKGtAIYya-2Tt18PaI29qD1KfLqeu0QxiNcePD4665Ok6veuOiKmDhCTyD-yJjCKC_Y-ZUbD6mmDIwNykbVaam8i7PjU-zYLQOcW8b3_lE6CY-eqsrCc4il3Tb5aXCWZmRApCa70qj8CmJnvLT9YOgm6rBkdpILaxkBVxeDmVsIs5btmnRsTG6BSYvBwEQ7XWZLmmpdZmcRUIpzStNS");'>
+<div class="flex flex-col gap-4 text-center items-center max-w-3xl">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                                        信頼をカタチに、未来を築く。
+                                    </h1>
+<h2 class="text-white/90 text-base font-normal leading-normal @[480px]:text-lg @[480px]:font-normal @[480px]:leading-relaxed">
+                                        株式会社アンカーは、革新的なソリューションでお客様のビジネスを成功に導き、ゆるぎない信頼関係を築くパートナーです。
+                                    </h2>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-accent text-primary text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:opacity-90 transition-opacity">
+<span class="truncate">事業内容を見る</span>
+</button>
 </div>
 </div>
 </section>
+
+
+
 <section class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container bg-white dark:bg-background-dark">
 <div class="flex flex-col gap-4 text-center items-center">
 <h2 class="tracking-tight text-3xl font-bold leading-tight @[480px]:text-4xl max-w-[720px] font-heading">最新情報</h2>
@@ -129,17 +134,17 @@
 <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
 <h3 class="font-bold font-heading text-lg">新サービス「Anchor Pro」提供開始</h3>
 <p class="text-sm text-slate-600 dark:text-slate-400">中小企業向けDX支援の新サービス「Anchor Pro」の提供を開始しました。業務効率化を強力にサポートします。</p>
-<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="news_detail.html">詳細を見る →</a>
 </div>
 <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
-<h3 class="font-bold font-heading text-lg">技術カンファレンスにCEOが登壇</h3>
-<p class="text-sm text-slate-600 dark:text-slate-400">国内最大級の技術カンファレンス「Tech Summit 2024」にて、代表取締役が未来のテクノロジーについて講演しました。</p>
-<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+<h3 class="font-bold font-heading text-lg">技術カンファレンスに参加</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">国内最大級の技術カンファレンス「Tech Summit 2025」にて、未来のテクノロジーに参加しました。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="news_detail.html">詳細を見る →</a>
 </div>
 <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
 <h3 class="font-bold font-heading text-lg">地域貢献活動に関するお知らせ</h3>
 <p class="text-sm text-slate-600 dark:text-slate-400">本社所在地の地域清掃活動に参加しました。今後も地域社会への貢献を続けてまいります。</p>
-<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="news_detail.html">詳細を見る →</a>
 </div>
 </div>
 </div>
@@ -221,9 +226,12 @@
 <p class="text-base font-normal leading-relaxed max-w-[720px] text-slate-600 dark:text-slate-300">
                                 株式会社アンカーは、お客様と共に未来を創造するパートナーです。私たちの理念やビジョンについて、詳しくはこちらをご覧ください。
                             </p>
+<a href="overview.html">
 <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-primary/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary">
 <span class="truncate">会社概要へ</span>
 </button>
+</a>
+
 </div>
 </div>
 </section>
@@ -241,7 +249,8 @@
 <img alt="Project image 4" class="w-full h-auto rounded-lg shadow-md" height="300" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHEZsH3lP2IrZxaejQmfsNf5a-7sUTjLrp7fbb28y0v2bthTEc70b1GUSR4IPGQupoZV0cHTw_6aT6GSbm8n4TV9REeoZzBFtmv9vQzcFazygy3NDTCEFUKevBQ-_r0daBM_JKKMByKRjruBhiiv0XW-LC7UEc12ILmKyPX4Tit83toqoMgKT6Jg-Ek1DRw2z9lM6nupUr6COdrTdQUhUyXnesTYYAtnVlZAX92kObtKIERGh9ntJtgpI_4QwDjcSO51fIViSyKWrq" width="300"/>
 </div>
 </div>
-<div class="mt-16 sm:mt-24 max-w-4xl mx-auto">
+
+<!-- <div class="mt-16 sm:mt-24 max-w-4xl mx-auto">
 <h3 class="text-2xl font-bold tracking-tight text-center sm:text-3xl font-heading mb-8">代表メッセージ</h3>
 <div class="aspect-video w-full rounded-lg overflow-hidden shadow-lg border border-border-light dark:border-border-dark">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="w-full h-full" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player"></iframe>
@@ -260,7 +269,8 @@
 <h4 class="font-bold mb-2 font-heading">トランスクリプト</h4>
 <p class="text-sm text-slate-600 dark:text-slate-400">ここに動画の文字起こしが表示されます。</p>
 </div>
-</div>
+</div> -->
+
 </div>
 </section>
 <section class="@container bg-card-light dark:bg-card-dark">
@@ -273,44 +283,42 @@
 </div>
 <div class="flex flex-1 justify-center">
 <div class="flex justify-center">
+<a href="overview.html">
 <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-accent text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base grow hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary">
 <span class="truncate">お問い合わせ</span>
 </button>
+</a>
 </div>
 </div>
 </div>
 </section>
 </main>
+
+
+
+
 <footer class="bg-card-light dark:bg-card-dark border-t border-border-light dark:border-border-dark">
 <div class="max-w-6xl mx-auto px-6 md:px-10 py-12">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div>
-<a class="flex items-center gap-3 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
-<div class="size-8 text-primary">
+
+
+
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4ZM20 20V32H14V20H20ZM34 20V32H28V20H34Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
 </div>
-<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] font-heading">株式会社アンカー</h2>
-</a>
-<div class="mt-4 flex gap-4">
-<a aria-label="X (formerly Twitter)" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-</svg>
-</a>
-<a aria-label="Facebook" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12,2.04C6.5,2.04 2,6.53 2,12.06C2,17.06 5.66,21.21 10.44,21.96V14.96H7.9V12.06H10.44V9.85C10.44,7.32 11.93,5.96 14.22,5.96C15.31,5.96 16.45,6.15 16.45,6.15V8.62H15.19C13.95,8.62 13.56,9.39 13.56,10.18V12.06H16.34L15.89,14.96H13.56V21.96C18.34,21.21 22,17.06 22,12.06C22,6.53 17.5,2.04 12,2.04Z"></path>
-</svg>
-</a>
-<a aria-label="LinkedIn" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
-</svg>
-</a>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">株式会社アンカー</h2>
+</div>
+<div class="flex flex-col gap-2 text-sm text-text-light/80 dark:text-text-dark/80">
+<p>〒189-0012 東京都東村山市萩山町2丁目16番地4 105号</p>
+<p>TEL: 090-3694-8076</p>
 </div>
 </div>
+
+
 <div class="flex flex-col items-start md:items-end gap-4">
 <p class="text-sm font-medium text-slate-700 dark:text-slate-300">このページを共有する</p>
 <div class="flex gap-2">
@@ -333,7 +341,7 @@
 </div>
 </div>
 <div class="mt-8 pt-8 border-t border-border-light dark:border-border-dark flex flex-col-reverse sm:flex-row justify-between items-center gap-6">
-<p class="text-xs text-slate-500 dark:text-slate-400">© 2024 株式会社アンカー All Rights Reserved.</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">© 2025 株式会社アンカー All Rights Reserved.</p>
 <div class="flex flex-wrap gap-x-6 gap-y-2 justify-center text-sm">
 <a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">プライバシーポリシー</a>
 <a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">サイトマップ</a>
@@ -341,6 +349,9 @@
 </div>
 </div>
 </footer>
+
+
 </div>
 </div>
+
 </body></html>
