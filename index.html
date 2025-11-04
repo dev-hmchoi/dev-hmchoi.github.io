@@ -6,194 +6,275 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&amp;family=Yu+Gothic+UI:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
     </style>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#003366",
-              "accent": "#C0A062",
-              "background-light": "#F5F5F5",
-              "background-dark": "#101c22",
-              "text-light": "#111618",
-              "text-dark": "#e8e6e3",
-              "card-light": "#FFFFFF",
-              "card-dark": "#1a2a33",
-              "border-light": "#dbe2e6",
-              "border-dark": "#374151"
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2A52BE",
+                        "accent": "#6C757D",
+                        "background-light": "#FFFFFF",
+                        "background-dark": "#101c22",
+                        "text-light": "#111618",
+                        "text-dark": "#e8e6e3",
+                        "card-light": "#F8F9FA",
+                        "card-dark": "#1a2a33",
+                        "border-light": "#DEE2E6",
+                        "border-dark": "#374151"
+                    },
+                    fontFamily: {
+                        "sans": ["Noto Sans JP", "sans-serif"],
+                        "heading": ["Yu Gothic UI", "Noto Sans JP", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
             },
-            fontFamily: {
-              "display": ["Manrope", "Noto Sans JP", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
+        }
     </script>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<body class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
 <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
-<div class="w-full flex justify-center">
-<div class="layout-content-container flex flex-col w-full max-w-[1100px] flex-1">
-<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-card-light/80 dark:bg-card-dark/80 backdrop-blur-sm">
-<div class="flex items-center gap-4 text-primary">
-<div class="size-6">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-white/80 dark:bg-card-dark/80 backdrop-blur-sm">
+<a class="flex items-center gap-3 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
+<div class="size-8 text-primary">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4ZM20 20V32H14V20H20ZM34 20V32H28V20H34Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
 </div>
-<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">株式会社アンカー</h2>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] font-heading">株式会社アンカー</h2>
+</a>
+<nav aria-label="メインナビゲーション" class="hidden md:flex flex-1 justify-end items-center">
+<div class="flex items-center gap-8">
+<a class="text-sm font-medium leading-normal text-primary hover:opacity-75 transition-opacity font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">トップページ</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">事業内容</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">会社概要</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">ニュース</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">お問い合わせ</a>
+<a class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300 hover:text-primary transition-colors font-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-2 py-1" href="#">プライバシーポリシー</a>
+<div class="flex items-center gap-2 border-l border-border-light dark:border-border-dark pl-4 ml-2">
+<a class="text-sm font-medium text-primary hover:opacity-75 transition-opacity" href="#">日本語</a>
+<span class="text-slate-400">/</span>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">English</a>
 </div>
-<nav class="hidden md:flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">事業内容</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">会社概要</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">お知らせ</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">お問い合わせ</a>
-</div>
-</nav>
-</header>
-<main class="flex flex-col flex-1">
-<section class="w-full @container">
-<div class="p-0 sm:p-4">
-<div class="flex min-h-[520px] sm:min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat sm:rounded-xl items-center text-center justify-center px-4 py-10 sm:px-10" data-alt="Abstract blue and gold geometric shapes creating a professional and modern background" style='background-image: linear-gradient(rgba(0, 51, 102, 0.7) 0%, rgba(0, 21, 41, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsP2bC-77ZbVlntNoZWjKRFhjrb-7ni_kJ_qJWC6sj-U7bn8AO5eD0zrl1EzKGtAIYya-2Tt18PaI29qD1KfLqeu0QxiNcePD4665Ok6veuOiKmDhCTyD-yJjCKC_Y-ZUbD6mmDIwNykbVaam8i7PjU-zYLQOcW8b3_lE6CY-eqsrCc4il3Tb5aXCWZmRApCa70qj8CmJnvLT9YOgm6rBkdpILaxkBVxeDmVsIs5btmnRsTG6BSYvBwEQ7XWZLmmpdZmcRUIpzStNS");'>
-<div class="flex flex-col gap-4 text-center items-center max-w-3xl">
-<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
-                                        信頼をカタチに、未来を築く。
-                                    </h1>
-<h2 class="text-white/90 text-base font-normal leading-normal @[480px]:text-lg @[480px]:font-normal @[480px]:leading-relaxed">
-                                        株式会社アンカーは、革新的なソリューションでお客様のビジネスを成功に導き、ゆるぎない信頼関係を築くパートナーです。
-                                    </h2>
-</div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-accent text-primary text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:opacity-90 transition-opacity">
-<span class="truncate">事業内容を見る</span>
+<button aria-label="サイト内検索" class="ml-4 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded p-1">
+<span class="material-symbols-outlined">search</span>
 </button>
 </div>
-</div>
-</section>
-<section class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container">
-<div class="flex flex-col gap-4 text-center items-center">
-<h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">最新ニュース</h1>
-</div>
-<div class="flex flex-col divide-y divide-border-light dark:divide-border-dark border-t border-b border-border-light dark:border-border-dark">
-<a class="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors" href="#">
-<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-<time class="text-sm font-medium leading-normal text-text-light/80 dark:text-text-dark/80 whitespace-nowrap" datetime="2024-05-15">2024.05.15</time>
-<p class="text-base font-bold leading-relaxed group-hover:text-primary transition-colors">新サービス「Anchor Cloud」提供開始のお知らせ</p>
-</div>
-<span class="material-symbols-outlined text-primary/70 group-hover:text-primary transition-colors !text-2xl">arrow_forward</span>
-</a>
-<a class="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors" href="#">
-<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-<time class="text-sm font-medium leading-normal text-text-light/80 dark:text-text-dark/80 whitespace-nowrap" datetime="2024-05-10">2024.05.10</time>
-<p class="text-base font-bold leading-relaxed group-hover:text-primary transition-colors">Webサイトをリニューアルしました</p>
-</div>
-<span class="material-symbols-outlined text-primary/70 group-hover:text-primary transition-colors !text-2xl">arrow_forward</span>
-</a>
-<a class="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors" href="#">
-<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-<time class="text-sm font-medium leading-normal text-text-light/80 dark:text-text-dark/80 whitespace-nowrap" datetime="2024-04-28">2024.04.28</time>
-<p class="text-base font-bold leading-relaxed group-hover:text-primary transition-colors">ゴールデンウィーク休業のお知らせ</p>
-</div>
-<span class="material-symbols-outlined text-primary/70 group-hover:text-primary transition-colors !text-2xl">arrow_forward</span>
-</a>
-</div>
-</section>
-<section class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container">
-<div class="flex flex-col gap-4 text-center items-center">
-<h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
-                                事業内容
+</nav>
+<button class="md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex flex-col flex-1">
+<nav aria-label="breadcrumb" class="bg-card-light dark:bg-card-dark">
+<ol class="flex items-center gap-2 whitespace-nowrap px-4 py-3 md:px-10">
+<li class="flex items-center gap-2">
+<a class="flex items-center gap-1 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined !text-base">home</span>
+                                    ホーム
+                                </a>
+</li>
+</ol>
+</nav>
+<section class="w-full @container">
+<div class="relative flex min-h-[560px] flex-col gap-6 items-center text-center justify-center px-4 py-16 sm:px-10">
+<div class="absolute inset-0 bg-card-light dark:bg-card-dark z-0"></div>
+<div class="relative z-10 flex flex-col gap-4 text-center items-center max-w-3xl fade-in">
+<h1 class="text-primary text-4xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-5xl font-heading">
+                                信頼をカタチに、未来を築く。
                             </h1>
-<p class="text-base font-normal leading-relaxed max-w-[720px]">お客様の多様なニーズに応えるため、私たちは3つの主要事業を展開しています。</p>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed @[480px]:text-lg">
+                                株式会社アンカーは、革新的なソリューションでお客様のビジネスを成功に導き、ゆるぎない信頼関係を築くパートナーです。
+                            </p>
 </div>
-<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0">
-<div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 flex-col">
-<div class="text-primary" data-icon="Briefcase" data-size="24px" data-weight="regular">
+</div>
+</section>
+<section class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container bg-white dark:bg-background-dark">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="tracking-tight text-3xl font-bold leading-tight @[480px]:text-4xl max-w-[720px] font-heading">最新情報</h2>
+<p class="text-base font-normal leading-relaxed max-w-[720px] text-slate-600 dark:text-slate-300">イベント、ニュースリリースなど、企業の最新情報をお届けします。</p>
+</div>
+<div class="relative w-full max-w-5xl mx-auto">
+<div class="overflow-hidden">
+<div class="flex transition-transform duration-500 ease-in-out">
+<div class="w-full flex-shrink-0">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">新サービス「Anchor Pro」提供開始</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">中小企業向けDX支援の新サービス「Anchor Pro」の提供を開始しました。業務効率化を強力にサポートします。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">技術カンファレンスにCEOが登壇</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">国内最大級の技術カンファレンス「Tech Summit 2024」にて、代表取締役が未来のテクノロジーについて講演しました。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">地域貢献活動に関するお知らせ</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">本社所在地の地域清掃活動に参加しました。今後も地域社会への貢献を続けてまいります。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+</div>
+</div>
+<div class="w-full flex-shrink-0">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">夏季休業のお知らせ</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">誠に勝手ながら、8月13日〜8月16日まで夏季休業とさせていただきます。ご不便をおかけしますが、何卒ご了承ください。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">採用サイトをリニューアルしました</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">事業拡大に伴い、採用サイトを全面リニューアルしました。新たな仲間を募集しています。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-bold font-heading text-lg">雑誌「NEXT CEO」に掲載</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400">経済雑誌「NEXT CEO」の特集「注目企業100選」に、当社の取り組みが掲載されました。</p>
+<a class="text-primary font-medium text-sm hover:underline mt-auto" href="#">詳細を見る →</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 flex justify-between w-full -left-4 -right-4 px-4 md:-left-12 md:-right-12">
+<button class="bg-white/80 dark:bg-card-dark/80 backdrop-blur-sm border border-border-light dark:border-border-dark rounded-full size-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="bg-white/80 dark:bg-card-dark/80 backdrop-blur-sm border border-border-light dark:border-border-dark rounded-full size-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
+<button class="w-2.5 h-2.5 rounded-full bg-primary"></button>
+<button class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500 transition-colors"></button>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container bg-card-light dark:bg-card-dark">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="tracking-tight text-3xl font-bold leading-tight @[480px]:text-4xl max-w-[720px] font-heading">
+                            主要事業
+                        </h2>
+<p class="text-base font-normal leading-relaxed max-w-[720px] text-slate-600 dark:text-slate-300">お客様の多様なニーズに応えるため、私たちは3つの主要事業を展開しています。</p>
+</div>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0 max-w-5xl mx-auto w-full">
+<a class="flex flex-1 gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 flex-col hover:shadow-lg hover:-translate-y-1 transition-all fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" href="#" style="animation-delay: 0.2s;">
+<div class="text-primary">
 <span class="material-symbols-outlined !text-4xl">domain</span>
 </div>
 <div class="flex flex-col gap-1">
-<h2 class="text-lg font-bold leading-tight">コンサルティング事業</h2>
-<p class="text-sm font-normal leading-normal text-text-light/80 dark:text-text-dark/80">お客様の課題を分析し、最適なビジネス戦略を提案します。</p>
+<h3 class="text-lg font-bold leading-tight font-heading">コンサルティング事業</h3>
+<p class="text-sm font-normal leading-normal text-slate-600 dark:text-slate-400">お客様の課題を分析し、最適なビジネス戦略を提案します。</p>
 </div>
-</div>
-<div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 flex-col">
-<div class="text-primary" data-icon="Code" data-size="24px" data-weight="regular">
+</a>
+<a class="flex flex-1 gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 flex-col hover:shadow-lg hover:-translate-y-1 transition-all fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" href="#" style="animation-delay: 0.4s;">
+<div class="text-primary">
 <span class="material-symbols-outlined !text-4xl">developer_mode</span>
 </div>
 <div class="flex flex-col gap-1">
-<h2 class="text-lg font-bold leading-tight">システム開発事業</h2>
-<p class="text-sm font-normal leading-normal text-text-light/80 dark:text-text-dark/80">最新技術を駆使し、拡張性の高いシステムを構築します。</p>
+<h3 class="text-lg font-bold leading-tight font-heading">システム開発事業</h3>
+<p class="text-sm font-normal leading-normal text-slate-600 dark:text-slate-400">最新技術を駆使し、拡張性の高いシステムを構築します。</p>
 </div>
-</div>
-<div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 flex-col">
-<div class="text-primary" data-icon="PaintBrush" data-size="24px" data-weight="regular">
+</a>
+<a class="flex flex-1 gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 flex-col hover:shadow-lg hover:-translate-y-1 transition-all fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" href="#" style="animation-delay: 0.6s;">
+<div class="text-primary">
 <span class="material-symbols-outlined !text-4xl">design_services</span>
 </div>
 <div class="flex flex-col gap-1">
-<h2 class="text-lg font-bold leading-tight">クリエイティブ事業</h2>
-<p class="text-sm font-normal leading-normal text-text-light/80 dark:text-text-dark/80">企業のブランド価値を高めるデザインソリューションを提供します。</p>
+<h3 class="text-lg font-bold leading-tight font-heading">クリエイティブ事業</h3>
+<p class="text-sm font-normal leading-normal text-slate-600 dark:text-slate-400">企業のブランド価値を高めるデザインソリューションを提供します。</p>
 </div>
-</div>
+</a>
 </div>
 </section>
 <section class="bg-card-light dark:bg-card-dark">
-<div class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container max-w-[1100px] mx-auto">
-<div class="flex flex-col gap-6 items-start">
-<div class="flex flex-col gap-4 text-left">
-<h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
-                                        私たちの想い
-                                    </h1>
-<p class="text-base font-normal leading-relaxed max-w-[720px]">
-                                        株式会社アンカーは、お客様との「信頼」を最も大切にし、共に未来を創造することを使命としています。
-                                    </p>
-</div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] w-fit hover:bg-primary/90 transition-colors">
-<span class="truncate">会社概要を見る</span>
+<div class="flex flex-col gap-10 px-4 md:px-10 py-16 sm:py-24 @container max-w-4xl mx-auto text-center items-center">
+<div class="flex flex-col gap-6 items-center text-center">
+<h2 class="text-primary text-sm font-bold uppercase tracking-widest font-heading">COMPANY</h2>
+<h3 class="tracking-tight text-3xl font-bold leading-tight @[480px]:text-4xl max-w-[720px] font-heading">
+                                お客様との「信頼」を最も大切に。
+                            </h3>
+<p class="text-base font-normal leading-relaxed max-w-[720px] text-slate-600 dark:text-slate-300">
+                                株式会社アンカーは、お客様と共に未来を創造するパートナーです。私たちの理念やビジョンについて、詳しくはこちらをご覧ください。
+                            </p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-primary/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary">
+<span class="truncate">会社概要へ</span>
 </button>
 </div>
-<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0">
-<div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-6 flex-col">
-<div class="text-primary" data-icon="Target" data-size="24px" data-weight="regular">
-<span class="material-symbols-outlined !text-4xl">track_changes</span>
 </div>
-<div class="flex flex-col gap-1">
-<h2 class="text-lg font-bold leading-tight">ミッション</h2>
-<p class="text-sm font-normal leading-normal text-text-light/80 dark:text-text-dark/80">最高の技術とサービスで、社会の発展に貢献します。</p>
+</section>
+<section class="py-16 sm:py-24 bg-white dark:bg-background-dark">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+<div class="space-y-4 text-center md:text-left">
+<h2 class="text-3xl font-bold tracking-tight sm:text-4xl font-heading">実績紹介</h2>
+<p class="text-slate-600 dark:text-slate-300 text-lg">これまでに手掛けたプロジェクトの一部をご紹介します。</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<img alt="Project image 1" class="w-full h-auto rounded-lg shadow-md" height="300" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC35oLw5fgXw8JN00GlA8Xxhohku3xGhreNpK21jd8sAywzo7uYm8cobDA9xlVaPWXMeVBpqG2KnjOKufYX8mZV0xuFq0v4EMyZeVpF0RIDZel5jiPYhKVk-nUWKwIOybsJ81645Bx8jFSzQ-zF1YHCcf_RCOqWFPYLb9LI8ptFwOUBuV8DQCVaZpkeeFqKQmSGcKGsR_OXayGBAnZYLzJbW6VIcWEfH6ElRR0zGsImrjqENX7ylWY4SYlY3pUJ2KcGMygCsBqqPxDB" width="300"/>
+<img alt="Project image 2" class="w-full h-auto rounded-lg shadow-md" height="300" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA37yPlwBcRbzgxa9T4E3o7uXZ9aPn_3lUIxIiGoGrSRZNPeTUXrUyYYzrESH3Ys-3v8GVKcfSXeyA-7Bedhxb3hgKWyz8z_b9cYv33GpoLqgjWCgqARdCbfCzk9iqucL8UhAFQ0-hrLfQSGa5wzA2YurBynyZsafzuYS6yStrPmpSr25qY9vZeqdoOxps70B5NdD84ZCp4lHWoJIB9nrPLyZj1W-eLLghUG5LRen_SxdeSYc9USdZXxK2OLwAqa_wO1arHcKV5UeRw" width="300"/>
+<img alt="Project image 3" class="w-full h-auto rounded-lg shadow-md" height="300" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJzrJ6RuDIYHW2ITKze5cODJTRWtPKM_sXG_Ax4yKB_vvqheRld2-F5zNMwiX0dloJSIZft2gZCpNrONmiv59xdBn3TuWuFehBoyHoAr72Jo60oljvZBhZ_LI_mmMYQNNsgPfWRB70kGXlNwnfJ-y3gTK5gU8NVBdwd_KLgNBid2761Q-G4DesFocVvdc7hke7mqarHa_ABOZNEcTo0-7tL0TqNTxn8erhWvcGnIBEjxKQXsq2NUToK6k9mQ52h2F_vftyIii7SgiA" width="300"/>
+<img alt="Project image 4" class="w-full h-auto rounded-lg shadow-md" height="300" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHEZsH3lP2IrZxaejQmfsNf5a-7sUTjLrp7fbb28y0v2bthTEc70b1GUSR4IPGQupoZV0cHTw_6aT6GSbm8n4TV9REeoZzBFtmv9vQzcFazygy3NDTCEFUKevBQ-_r0daBM_JKKMByKRjruBhiiv0XW-LC7UEc12ILmKyPX4Tit83toqoMgKT6Jg-Ek1DRw2z9lM6nupUr6COdrTdQUhUyXnesTYYAtnVlZAX92kObtKIERGh9ntJtgpI_4QwDjcSO51fIViSyKWrq" width="300"/>
 </div>
 </div>
-<div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-6 flex-col">
-<div class="text-primary" data-icon="Eye" data-size="24px" data-weight="regular">
-<span class="material-symbols-outlined !text-4xl">visibility</span>
+<div class="mt-16 sm:mt-24 max-w-4xl mx-auto">
+<h3 class="text-2xl font-bold tracking-tight text-center sm:text-3xl font-heading mb-8">代表メッセージ</h3>
+<div class="aspect-video w-full rounded-lg overflow-hidden shadow-lg border border-border-light dark:border-border-dark">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="w-full h-full" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player"></iframe>
 </div>
-<div class="flex flex-col gap-1">
-<h2 class="text-lg font-bold leading-tight">ビジョン</h2>
-<p class="text-sm font-normal leading-normal text-text-light/80 dark:text-text-dark/80">最も信頼されるパートナーであり続けることを目指します。</p>
+<div class="mt-6 flex flex-wrap gap-4 justify-center">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+<span class="material-symbols-outlined !text-lg">closed_caption</span>
+                                字幕を表示
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+<span class="material-symbols-outlined !text-lg">description</span>
+                                文字起こしを表示
+                            </button>
 </div>
+<div class="mt-4 p-4 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-md hidden">
+<h4 class="font-bold mb-2 font-heading">トランスクリプト</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400">ここに動画の文字起こしが表示されます。</p>
 </div>
 </div>
 </div>
 </section>
-<section class="@container">
+<section class="@container bg-card-light dark:bg-card-dark">
 <div class="flex flex-col justify-end gap-6 px-4 py-16 sm:py-24 @[480px]:gap-8 @[480px]:px-10">
 <div class="flex flex-col gap-4 text-center items-center">
-<h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
-                                    まずはお気軽にご相談ください
-                                </h1>
-<p class="text-base font-normal leading-relaxed max-w-[720px]">専門のスタッフが、お客様の課題解決に向けて最適なご提案をいたします。</p>
+<h2 class="tracking-tight text-3xl font-bold leading-tight @[480px]:text-4xl max-w-[720px] font-heading">
+                                まずはお気軽にご相談ください
+                            </h2>
+<p class="text-base font-normal leading-relaxed max-w-[720px] text-slate-600 dark:text-slate-300">専門のスタッフが、お客様の課題解決に向けて最適なご提案をいたします。</p>
 </div>
 <div class="flex flex-1 justify-center">
 <div class="flex justify-center">
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-accent text-primary text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] grow hover:opacity-90 transition-opacity">
-<span class="truncate">お問い合わせフォームへ</span>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-accent text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base grow hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary">
+<span class="truncate">お問い合わせ</span>
 </button>
 </div>
 </div>
@@ -201,31 +282,65 @@
 </section>
 </main>
 <footer class="bg-card-light dark:bg-card-dark border-t border-border-light dark:border-border-dark">
-<div class="max-w-[1100px] mx-auto px-6 md:px-10 py-12">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-<div class="flex items-center gap-4 text-primary">
-<div class="size-6">
+<div class="max-w-6xl mx-auto px-6 md:px-10 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<a class="flex items-center gap-3 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
+<div class="size-8 text-primary">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4ZM20 20V32H14V20H20ZM34 20V32H28V20H34Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
 </div>
-<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">株式会社アンカー</h2>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] font-heading">株式会社アンカー</h2>
+</a>
+<div class="mt-4 flex gap-4">
+<a aria-label="X (formerly Twitter)" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+</svg>
+</a>
+<a aria-label="Facebook" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12,2.04C6.5,2.04 2,6.53 2,12.06C2,17.06 5.66,21.21 10.44,21.96V14.96H7.9V12.06H10.44V9.85C10.44,7.32 11.93,5.96 14.22,5.96C15.31,5.96 16.45,6.15 16.45,6.15V8.62H15.19C13.95,8.62 13.56,9.39 13.56,10.18V12.06H16.34L15.89,14.96H13.56V21.96C18.34,21.21 22,17.06 22,12.06C22,6.53 17.5,2.04 12,2.04Z"></path>
+</svg>
+</a>
+<a aria-label="LinkedIn" class="text-accent hover:text-primary dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+</svg>
+</a>
 </div>
-<div class="flex flex-col gap-2 text-sm text-text-light/80 dark:text-text-dark/80">
-<p>〒100-0005 東京都千代田区丸の内1-1-1</p>
-<p>TEL: 03-1234-5678</p>
+</div>
+<div class="flex flex-col items-start md:items-end gap-4">
+<p class="text-sm font-medium text-slate-700 dark:text-slate-300">このページを共有する</p>
+<div class="flex gap-2">
+<a aria-label="Xで共有" class="flex items-center justify-center h-10 w-10 bg-[#1DA1F2] text-white rounded-full hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary" href="https://twitter.com/intent/tweet?url=YOUR_PAGE_URL&amp;text=YOUR_PAGE_TITLE" rel="noopener noreferrer" target="_blank">
+<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+</svg>
+</a>
+<a aria-label="Facebookで共有" class="flex items-center justify-center h-10 w-10 bg-[#1877F2] text-white rounded-full hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary" href="https://www.facebook.com/sharer/sharer.php?u=YOUR_PAGE_URL" rel="noopener noreferrer" target="_blank">
+<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12,2.04C6.5,2.04 2,6.53 2,12.06C2,17.06 5.66,21.21 10.44,21.96V14.96H7.9V12.06H10.44V9.85C10.44,7.32 11.93,5.96 14.22,5.96C15.31,5.96 16.45,6.15 16.45,6.15V8.62H15.19C13.95,8.62 13.56,9.39 13.56,10.18V12.06H16.34L15.89,14.96H13.56V21.96C18.34,21.21 22,17.06 22,12.06C22,6.53 17.5,2.04 12,2.04Z"></path>
+</svg>
+</a>
+<a aria-label="LinkedInで共有" class="flex items-center justify-center h-10 w-10 bg-[#0A66C2] text-white rounded-full hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card-light dark:focus-visible:ring-offset-card-dark focus-visible:ring-primary" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=YOUR_PAGE_URL&amp;title=YOUR_PAGE_TITLE&amp;summary=YOUR_PAGE_SUMMARY&amp;source=YOUR_WEBSITE_NAME" rel="noopener noreferrer" target="_blank">
+<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+</svg>
+</a>
 </div>
 </div>
-<div class="mt-8 pt-8 border-t border-border-light dark:border-border-dark flex flex-col sm:flex-row justify-between items-center gap-4">
-<div class="flex gap-6 text-sm">
-<a class="hover:text-primary transition-colors" href="#">プライバシーポリシー</a>
 </div>
-<p class="text-xs text-text-light/60 dark:text-text-dark/60">© 2024 Anchor Inc. All Rights Reserved.</p>
+<div class="mt-8 pt-8 border-t border-border-light dark:border-border-dark flex flex-col-reverse sm:flex-row justify-between items-center gap-6">
+<p class="text-xs text-slate-500 dark:text-slate-400">© 2024 株式会社アンカー All Rights Reserved.</p>
+<div class="flex flex-wrap gap-x-6 gap-y-2 justify-center text-sm">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">プライバシーポリシー</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" href="#">サイトマップ</a>
+</div>
 </div>
 </div>
 </footer>
-</div>
-</div>
 </div>
 </div>
 </body></html>
