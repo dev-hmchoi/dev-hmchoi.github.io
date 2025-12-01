@@ -12,3 +12,9 @@ https://github.com/dev-hmchoi/dev-hmchoi.github.io/settings/pages
 
 
 # 홈페이지 업로드 순서
+1. 코드 수정
+2. cd C:\Users\hmcho\OneDrive\ドキュメント\MY_WORK\ANCHOR\HOMEPAGE
+3. git pull
+4. git add .
+5. git commit -m "modified"
+6. git push
