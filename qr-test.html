@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZXing カメラ読取（QR / Code128）</title>
+    <script
+      src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"
+      defer
+    ></script>
+    <style>
+      :root {
+        --bg-a: #f3f8ed;
+        --bg-b: #d6eac7;
+        --card: #fff;
+        --ink: #102118;
+        --sub: #3f5647;
+        --line: #bed2c0;
+        --accent: #1f7a4b;
+        --accent-2: #dbf06c;
+        --ok: #12663b;
+        --err: #8c2a20;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 20px 14px 44px;
+        font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 88% 14%, #edf8b0 0, #edf8b000 42%),
+          radial-gradient(circle at 12% 92%, #c2e897 0, #c2e89700 44%),
+          linear-gradient(140deg, var(--bg-a), var(--bg-b));
+      }
+
+      .wrap {
+        width: min(960px, 100%);
+        margin: 0 auto;
+        overflow: hidden;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 16px 46px rgba(18, 48, 24, 14%);
+      }
+
+      .head {
+        padding: 20px;
+        background: linear-gradient(110deg, #f8fff2, #f2f9ea);
+        border-bottom: 1px solid #e0ebda;
+      }
+
+      .head h1 {
+        margin: 0;
+        font-size: clamp(1.15rem, 2.7vw, 1.65rem);
+      }
+
+      .head p {
+        margin: 8px 0 0;
+        font-size: 0.92rem;
+        color: var(--sub);
+      }
+
+      .body {
+        display: grid;
+        gap: 14px;
+        padding: 18px;
+      }
+
+      .mode-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .mode-btn {
+        padding: 8px 14px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #33503e;
+        cursor: pointer;
+        background: #f3f9ef;
+        border: 1px solid #b8cbb8;
+        border-radius: 999px;
+      }
+
+      .mode-btn.active {
+        color: #f7fff9;
+        background: var(--accent);
+        border-color: #196a3f;
+      }
+
+      .field label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .input-group {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 10px;
+      }
+
+      .text-input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        color: #13261a;
+        border: 1px solid #b6c9b8;
+        border-radius: 12px;
+        outline: none;
+      }
+
+      .btn {
+        min-height: 44px;
+        padding: 0 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 0;
+        border-radius: 12px;
+      }
+
+      .btn-scan {
+        min-width: 56px;
+        color: #f7fff8;
+        background: var(--accent);
+      }
+
+      .btn-clear {
+        color: #1f3026;
+        background: #e6ece6;
+      }
+
+      .btn-upload {
+        color: #17315f;
+        background: #dbe9ff;
+      }
+
+      .file-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .note {
+        padding: 10px 12px;
+        font-size: 0.88rem;
+        color: #3c4f42;
+        background: #f7fbf4;
+        border: 1px solid #d6e2d1;
+        border-radius: 12px;
+      }
+
+      .status {
+        min-height: 24px;
+        font-size: 0.93rem;
+        font-weight: 700;
+        color: #2e5c3d;
+      }
+
+      .status.error {
+        color: var(--err);
+      }
+
+      .status.ok {
+        color: var(--ok);
+      }
+
+      .result-panel {
+        display: none;
+        padding: 10px 12px;
+        background: #fbfdf9;
+        border: 1px solid #d6e2d1;
+        border-radius: 12px;
+      }
+
+      .result-panel.open {
+        display: block;
+      }
+
+      .result-title {
+        margin-bottom: 8px;
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: #355241;
+      }
+
+      .result-list {
+        display: grid;
+        gap: 6px;
+        padding-left: 1.2rem;
+        margin: 0;
+      }
+
+      .result-item {
+        font-size: 0.92rem;
+        color: #203126;
+        word-break: break-all;
+      }
+
+      .result-item.selected {
+        font-weight: 700;
+        color: #12663b;
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+        background: rgba(9, 19, 14, 78%);
+      }
+
+      .overlay.open {
+        display: flex;
+      }
+
+      .modal {
+        width: min(920px, 100%);
+        max-height: 95vh;
+        overflow: auto;
+        color: #deebde;
+        background: #0f1b14;
+        border: 1px solid #33563d;
+        border-radius: 16px;
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        background: #15261d;
+        border-bottom: 1px solid #2d4934;
+      }
+
+      .modal-title {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      .modal-close {
+        min-width: 72px;
+        min-height: 36px;
+        font-weight: 700;
+        color: #e5efe7;
+        cursor: pointer;
+        background: #1d3124;
+        border: 1px solid #4e6d57;
+        border-radius: 10px;
+      }
+
+      .preview-box {
+        position: relative;
+        min-height: 240px;
+        aspect-ratio: 16 / 10;
+        margin: 12px;
+        overflow: hidden;
+        background: #000;
+        border-radius: 12px;
+      }
+
+      .work-canvas {
+        display: none;
+      }
+
+      video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .guide {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(64%, 420px);
+        aspect-ratio: 1 / 1;
+        border: 3px solid var(--accent-2);
+        border-radius: 12px;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 36%);
+        transform: translate(-50%, -50%);
+      }
+
+      .guide.code128 {
+        width: min(88%, 760px);
+        aspect-ratio: 4.8 / 1;
+        border-radius: 10px;
+      }
+
+      .modal-body {
+        display: grid;
+        gap: 8px;
+        padding: 0 12px 12px;
+      }
+
+      .camera-tools {
+        display: grid;
+        gap: 8px;
+        padding: 8px;
+        background: #122319;
+        border: 1px solid #2f4f38;
+        border-radius: 10px;
+      }
+
+      .camera-tools-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .camera-tools label {
+        min-width: 78px;
+        font-size: 0.82rem;
+        color: #d7e7d9;
+      }
+
+      .zoom-slider {
+        flex: 1;
+        min-width: 140px;
+      }
+
+      .tool-btn {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 0.82rem;
+        color: #e4efe5;
+        cursor: pointer;
+        background: #1c3526;
+        border: 1px solid #4d7258;
+        border-radius: 8px;
+      }
+
+      .tool-note {
+        font-size: 0.78rem;
+        color: #b8d2bc;
+      }
+
+      .modal-status {
+        min-height: 22px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #cbe7d2;
+      }
+
+      .modal-status.error {
+        color: #ffc0b8;
+      }
+
+      @media (max-width: 760px) {
+        .input-group {
+          grid-template-columns: 1fr;
+        }
+        .btn {
+          width: 100%;
+        }
+        .preview-box {
+          aspect-ratio: 4 / 3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="wrap">
+        <header class="head">
+          <h1>ZXing カメラ読取（QR / Code128）</h1>
+          <p>Vue単一ファイル版。ZXing は CDN から読み込みます。</p>
+        </header>
+
+        <section class="body">
+          <div class="mode-row" aria-label="読取モード切替">
+            <button id="modeQrBtn" class="mode-btn" type="button">
+              QR読取モード
+            </button>
+            <button id="modeCode128Btn" class="mode-btn" type="button">
+              Code128読取モード
+            </button>
+          </div>
+
+          <div class="field">
+            <label for="targetInput">機種情報 / EID</label>
+            <div class="input-group">
+              <input
+                id="targetInput"
+                class="text-input"
+                type="text"
+                autocomplete="off"
+                placeholder="読取結果をここに反映（手入力可）"
+              />
+              <button id="scanBtn" class="btn btn-scan" type="button">
+                SCAN
+              </button>
+              <button id="uploadBtn" class="btn btn-upload" type="button">
+                画像
+              </button>
+              <button id="clearBtn" class="btn btn-clear" type="button">
+                クリア
+              </button>
+            </div>
+            <input
+              id="imageInput"
+              class="file-input"
+              type="file"
+              accept="image/*"
+              capture="environment"
+            />
+          </div>
+
+          <div id="statusText" class="status">待機中</div>
+
+          <div id="resultPanel" class="result-panel">
+            <div class="result-title">検出結果</div>
+            <ol id="resultList" class="result-list"></ol>
+          </div>
+
+          <div class="note">
+            Code128
+            は少し離して撮影し、バーコード全体をガイド内に収めると成功率が上がります。
+          </div>
+        </section>
+      </section>
+
+      <div id="overlay" class="overlay">
+        <section class="modal">
+          <header class="modal-head">
+            <h2 id="modalTitle" class="modal-title">Code128読取モード</h2>
+            <button id="closeBtn" class="modal-close" type="button">
+              閉じる
+            </button>
+          </header>
+
+          <div class="preview-box">
+            <video id="preview" playsinline muted></video>
+            <canvas id="workCanvas" class="work-canvas"></canvas>
+            <div id="guide" class="guide code128"></div>
+          </div>
+
+          <div class="modal-body">
+            <div id="modalStatus" class="modal-status">カメラ起動中...</div>
+            <div class="camera-tools">
+              <div class="camera-tools-row">
+                <label for="zoomSlider">ズーム</label>
+                <input
+                  id="zoomSlider"
+                  class="zoom-slider"
+                  type="range"
+                  min="1"
+                  max="1"
+                  step="0.1"
+                  value="1"
+                  disabled
+                />
+                <button id="refocusBtn" class="tool-btn" type="button">
+                  AF再実行
+                </button>
+              </div>
+              <div id="zoomNote" class="tool-note">
+                ズームは対応端末でのみ利用できます。
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const MODE = { QR: "qr", CODE128: "code128" };
+      const AUTO_FOCUS_INTERVAL_MS = 1000;
+      const AUTO_FOCUS_DELAY_MS = 500;
+      const FOCUS_MODES_CALLING_AF = ["single-shot", "auto"];
+
+      const dom = {
+        modeQrBtn: document.getElementById("modeQrBtn"),
+        modeCode128Btn: document.getElementById("modeCode128Btn"),
+        targetInput: document.getElementById("targetInput"),
+        statusText: document.getElementById("statusText"),
+        scanBtn: document.getElementById("scanBtn"),
+        uploadBtn: document.getElementById("uploadBtn"),
+        clearBtn: document.getElementById("clearBtn"),
+        imageInput: document.getElementById("imageInput"),
+        resultPanel: document.getElementById("resultPanel"),
+        resultList: document.getElementById("resultList"),
+        overlay: document.getElementById("overlay"),
+        modalTitle: document.getElementById("modalTitle"),
+        closeBtn: document.getElementById("closeBtn"),
+        preview: document.getElementById("preview"),
+        workCanvas: document.getElementById("workCanvas"),
+        guide: document.getElementById("guide"),
+        modalStatus: document.getElementById("modalStatus"),
+        zoomSlider: document.getElementById("zoomSlider"),
+        refocusBtn: document.getElementById("refocusBtn"),
+        zoomNote: document.getElementById("zoomNote"),
+      };
+
+      const app = {
+        scanMode: MODE.CODE128,
+        targetValue: "",
+        detectedValues: [],
+        statusKind: "",
+        modalStatusKind: "",
+        scannerOpen: false,
+      };
+
+      const state = {
+        reader: null,
+        multipleBarcodeReader: null,
+        decodeHints: null,
+        track: null,
+        preferredFocusMode: "",
+        useAutoFocus: false,
+        isFocusing: false,
+        isAutoFocusCalled: false,
+        autoFocusIntervalId: 0,
+        autoFocusFallbackId: 0,
+        frameCount: 0,
+        rafId: 0,
+        isReading: false,
+        isUploading: false,
+        timeoutId: 0,
+      };
+
+      const zoom = {
+        disabled: true,
+        min: 1,
+        max: 1,
+        step: 0.1,
+        value: 1,
+        note: "ズームは対応端末でのみ利用できます。",
+      };
+
+      function getZXing() {
+        return window.ZXing;
+      }
+
+      function updateStatusClass() {
+        dom.statusText.classList.remove("error", "ok");
+        if (app.statusKind) dom.statusText.classList.add(app.statusKind);
+      }
+
+      function updateModalStatusClass() {
+        dom.modalStatus.classList.remove("error", "ok");
+        if (app.modalStatusKind)
+          dom.modalStatus.classList.add(app.modalStatusKind);
+      }
+
+      function setStatus(msg, kind = "") {
+        app.statusKind = kind;
+        dom.statusText.textContent = msg;
+        updateStatusClass();
+      }
+
+      function setModalStatus(msg, kind = "") {
+        app.modalStatusKind = kind;
+        dom.modalStatus.textContent = msg;
+        updateModalStatusClass();
+      }
+
+      function renderResults() {
+        dom.resultList.innerHTML = "";
+        app.detectedValues.forEach((item) => {
+          const li = document.createElement("li");
+          li.className = "result-item";
+          if (item === app.targetValue) li.classList.add("selected");
+          li.textContent = item;
+          dom.resultList.appendChild(li);
+        });
+        dom.resultPanel.classList.toggle("open", app.detectedValues.length > 0);
+      }
+
+      function updateModeButtons() {
+        dom.modeQrBtn.classList.toggle("active", app.scanMode === MODE.QR);
+        dom.modeCode128Btn.classList.toggle(
+          "active",
+          app.scanMode === MODE.CODE128,
+        );
+        dom.guide.classList.toggle("code128", app.scanMode === MODE.CODE128);
+      }
+
+      function updateOverlay() {
+        dom.overlay.classList.toggle("open", app.scannerOpen);
+      }
+
+      function syncInput() {
+        if (dom.targetInput.value !== app.targetValue) {
+          dom.targetInput.value = app.targetValue;
+        }
+        renderResults();
+      }
+
+      function applyZoomUi() {
+        dom.zoomSlider.disabled = zoom.disabled;
+        dom.zoomSlider.min = String(zoom.min);
+        dom.zoomSlider.max = String(zoom.max);
+        dom.zoomSlider.step = String(zoom.step);
+        dom.zoomSlider.value = String(zoom.value);
+        dom.zoomNote.textContent = zoom.note;
+      }
+
+      function setMode(mode) {
+        app.scanMode = mode;
+        app.detectedValues = [];
+        dom.modalTitle.textContent =
+          mode === MODE.QR ? "QR読取モード" : "Code128読取モード";
+        setStatus(dom.modalTitle.textContent + "を選択しました。");
+        updateModeButtons();
+        renderResults();
+      }
+
+      function stopScanner() {
+        if (state.timeoutId) {
+          window.clearTimeout(state.timeoutId);
+          state.timeoutId = 0;
+        }
+
+        if (state.rafId) {
+          window.cancelAnimationFrame(state.rafId);
+          state.rafId = 0;
+        }
+
+        if (state.autoFocusIntervalId) {
+          window.clearTimeout(state.autoFocusIntervalId);
+          state.autoFocusIntervalId = 0;
+        }
+
+        if (state.autoFocusFallbackId) {
+          window.clearTimeout(state.autoFocusFallbackId);
+          state.autoFocusFallbackId = 0;
+        }
+
+        if (state.reader && typeof state.reader.reset === "function") {
+          state.reader.reset();
+        }
+
+        const stream = dom.preview.srcObject;
+        if (stream && typeof stream.getTracks === "function") {
+          stream.getTracks().forEach((t) => t.stop());
+        }
+        dom.preview.srcObject = null;
+
+        state.reader = null;
+        state.multipleBarcodeReader = null;
+        state.decodeHints = null;
+        state.track = null;
+        state.preferredFocusMode = "";
+        state.useAutoFocus = false;
+        state.isFocusing = false;
+        state.isAutoFocusCalled = false;
+        state.frameCount = 0;
+        state.isReading = false;
+        zoom.disabled = true;
+        zoom.min = 1;
+        zoom.max = 1;
+        zoom.step = 0.1;
+        zoom.value = 1;
+        zoom.note = "ズームは対応端末でのみ利用できます。";
+        applyZoomUi();
+      }
+
+      function clearAutoFocusTimers() {
+        if (state.autoFocusIntervalId) {
+          window.clearTimeout(state.autoFocusIntervalId);
+          state.autoFocusIntervalId = 0;
+        }
+        if (state.autoFocusFallbackId) {
+          window.clearTimeout(state.autoFocusFallbackId);
+          state.autoFocusFallbackId = 0;
+        }
+      }
+
+      function scheduleAutoFocusAgain() {
+        if (!state.isReading || !state.useAutoFocus) return;
+        if (state.autoFocusIntervalId)
+          window.clearTimeout(state.autoFocusIntervalId);
+        state.autoFocusIntervalId = window.setTimeout(() => {
+          runAutoFocusCycle();
+        }, AUTO_FOCUS_INTERVAL_MS);
+      }
+
+      function runAutoFocusCycle() {
+        if (
+          !state.isReading ||
+          !state.track ||
+          !state.useAutoFocus ||
+          state.isFocusing
+        )
+          return;
+
+        state.isAutoFocusCalled = false;
+        state.isFocusing = true;
+
+        if (state.autoFocusFallbackId) {
+          window.clearTimeout(state.autoFocusFallbackId);
+        }
+
+        // ＜④オートフォーカス間隔短縮 + フォールバック追加＞
+        state.autoFocusFallbackId = window.setTimeout(() => {
+          if (state.isFocusing && !state.isAutoFocusCalled) {
+            state.isFocusing = false;
+            scheduleAutoFocusAgain();
+          }
+        }, AUTO_FOCUS_DELAY_MS);
+
+        state.track
+          .applyConstraints({
+            advanced: [{ focusMode: state.preferredFocusMode }],
+          })
+          .then(() => {
+            state.isAutoFocusCalled = true;
+            state.isFocusing = false;
+            if (state.autoFocusFallbackId) {
+              window.clearTimeout(state.autoFocusFallbackId);
+              state.autoFocusFallbackId = 0;
+            }
+            scheduleAutoFocusAgain();
+          })
+          .catch(() => {
+            state.isAutoFocusCalled = true;
+            state.isFocusing = false;
+            if (state.autoFocusFallbackId) {
+              window.clearTimeout(state.autoFocusFallbackId);
+              state.autoFocusFallbackId = 0;
+            }
+            scheduleAutoFocusAgain();
+          });
+      }
+
+      function decodeFrameLoop(mode) {
+        const ZXing = getZXing();
+        if (!ZXing || !state.reader) return;
+
+        const video = dom.preview;
+        const canvas = dom.workCanvas;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) return;
+
+        const tick = () => {
+          if (!state.isReading) return;
+
+          const width = video.videoWidth || 0;
+          const height = video.videoHeight || 0;
+          if (width > 0 && height > 0) {
+            if (canvas.width !== width || canvas.height !== height) {
+              canvas.width = width;
+              canvas.height = height;
+            }
+
+            context.drawImage(video, 0, 0, width, height);
+
+            // ＜①3フレームに1回の色反転処理＞
+            if (state.frameCount === 3) {
+              state.frameCount = 0;
+
+              const imageData = context.getImageData(0, 0, width, height);
+              const pixels = imageData.data;
+              for (let i = 0; i < pixels.length; i += 4) {
+                pixels[i] = 255 - pixels[i];
+                pixels[i + 1] = 255 - pixels[i + 1];
+                pixels[i + 2] = 255 - pixels[i + 2];
+              }
+
+              context.putImageData(imageData, 0, 0);
+            }
+            state.frameCount += 1;
+
+            try {
+              const luminanceSource =
+                new ZXing.HTMLCanvasElementLuminanceSource(canvas);
+              const binaryBitmap = new ZXing.BinaryBitmap(
+                new ZXing.HybridBinarizer(luminanceSource),
+              );
+
+              // ＜②MultipleBarcodeReader への切り替え＞
+              const results = state.multipleBarcodeReader.decodeMultiple(
+                binaryBitmap,
+                state.decodeHints,
+              );
+
+              const raws = (results || [])
+                .map((item) =>
+                  String(item && item.getText ? item.getText() : "").trim(),
+                )
+                .filter(
+                  (raw) =>
+                    raw &&
+                    (mode !== MODE.CODE128 || /^[\x20-\x7E]{6,64}$/.test(raw)),
+                );
+
+              if (raws.length > 0) {
+                app.targetValue = raws[0];
+                app.detectedValues = raws;
+                syncInput();
+                setStatus("読み取りが完了しました。", "ok");
+                setModalStatus("読み取りが完了しました。");
+                stopScanner();
+                app.scannerOpen = false;
+                updateOverlay();
+                return;
+              }
+            } catch (err) {
+              if (
+                !(err instanceof ZXing.NotFoundException) &&
+                !(err instanceof ZXing.ReaderException)
+              ) {
+                setModalStatus(
+                  "読取中: " + (err && err.name ? err.name : "処理中"),
+                );
+              }
+            } finally {
+              state.reader.reset();
+            }
+          }
+
+          state.rafId = window.requestAnimationFrame(tick);
+        };
+
+        state.rafId = window.requestAnimationFrame(tick);
+      }
+
+      function cancelScan() {
+        stopScanner();
+        app.scannerOpen = false;
+        updateOverlay();
+        setStatus("読取を中止しました。");
+      }
+
+      async function initTrackControls() {
+        const stream = dom.preview.srcObject;
+        if (!(stream && typeof stream.getVideoTracks === "function")) return;
+        const track = stream.getVideoTracks()[0];
+        if (!track) return;
+        state.track = track;
+
+        const caps =
+          typeof track.getCapabilities === "function"
+            ? track.getCapabilities()
+            : null;
+
+        // ＜③フォーカス設定変更＞
+        // continuous は使わず、single-shot を最優先。未対応端末は auto のみ許容する。
+        const focusModes = Array.isArray(caps && caps.focusMode)
+          ? caps.focusMode
+          : [];
+        const prefersSingleShot =
+          focusModes.length === 0 || focusModes.includes("single-shot");
+        const allowsAuto =
+          focusModes.length === 0 || focusModes.includes("auto");
+        state.preferredFocusMode = prefersSingleShot ? "single-shot" : "auto";
+        state.useAutoFocus = FOCUS_MODES_CALLING_AF.includes(
+          state.preferredFocusMode,
+        );
+
+        if (state.useAutoFocus && prefersSingleShot) {
+          try {
+            await track.applyConstraints({
+              advanced: [{ focusMode: "single-shot" }],
+            });
+          } catch {
+            if (allowsAuto) {
+              try {
+                await track.applyConstraints({
+                  advanced: [{ focusMode: "auto" }],
+                });
+              } catch {
+                // ignore
+              }
+            }
+          }
+        } else if (state.useAutoFocus && allowsAuto) {
+          try {
+            await track.applyConstraints({ advanced: [{ focusMode: "auto" }] });
+          } catch {
+            // ignore
+          }
+        }
+
+        if (caps && typeof caps.zoom === "object") {
+          zoom.disabled = false;
+          zoom.min = Number(caps.zoom.min || 1);
+          zoom.max = Number(caps.zoom.max || 1);
+          zoom.step = Number(caps.zoom.step || 0.1);
+          zoom.value =
+            app.scanMode === MODE.CODE128
+              ? Math.min(zoom.max, Math.max(zoom.min, 2.2))
+              : zoom.min;
+          zoom.note =
+            app.scanMode === MODE.CODE128
+              ? "Code128 は少し離してズームを上げると読取しやすくなります。"
+              : "QR は中央に合わせてください。";
+
+          try {
+            await track.applyConstraints({ advanced: [{ zoom: zoom.value }] });
+          } catch {
+            // ignore
+          }
+        }
+
+        applyZoomUi();
+      }
+
+      async function startScan() {
+        if (state.isReading || state.isUploading) return;
+
+        if (!getZXing()) {
+          setStatus(
+            "ZXing CDN の読み込みに失敗しました。ネットワークを確認してください。",
+            "error",
+          );
+          return;
+        }
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus(
+            "この端末はカメラに対応していません。画像アップロードをご利用ください。",
+            "error",
+          );
+          return;
+        }
+
+        if (
+          !window.isSecureContext &&
+          location.hostname !== "localhost" &&
+          location.hostname !== "127.0.0.1"
+        ) {
+          setStatus(
+            "カメラ読取は HTTPS または localhost で実行してください。",
+            "error",
+          );
+          return;
+        }
+
+        const ZXing = getZXing();
+        const mode = app.scanMode;
+        const formats =
+          mode === MODE.QR
+            ? [ZXing.BarcodeFormat.QR_CODE]
+            : [ZXing.BarcodeFormat.CODE_128];
+        const hints = new Map();
+        hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, formats);
+        hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+
+        app.scannerOpen = true;
+        updateOverlay();
+        state.isReading = true;
+        setStatus("読取を開始しました。");
+        setModalStatus("カメラ起動中...");
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: mode === MODE.CODE128 ? 1920 : 1280 },
+              height: { ideal: mode === MODE.CODE128 ? 1080 : 720 },
+              frameRate: { ideal: 30, max: 30 },
+            },
+          });
+
+          dom.preview.srcObject = stream;
+          await dom.preview.play();
+
+          state.reader = new ZXing.MultiFormatReader();
+          state.decodeHints = hints;
+          state.reader.setHints(state.decodeHints);
+          state.multipleBarcodeReader = new ZXing.GenericMultipleBarcodeReader(
+            state.reader,
+          );
+
+          await initTrackControls();
+          runAutoFocusCycle();
+          decodeFrameLoop(mode);
+
+          state.timeoutId = window.setTimeout(() => {
+            if (!state.isReading) return;
+            const msg =
+              mode === MODE.CODE128
+                ? "Code128 を読み取れませんでした。距離・明るさ・角度を調整してください。"
+                : "QR を読み取れませんでした。位置や明るさを調整してください。";
+            setStatus(msg, "error");
+            setModalStatus(msg, "error");
+          }, 20000);
+        } catch {
+          setStatus("カメラを起動できませんでした。", "error");
+          setModalStatus("カメラを起動できませんでした。", "error");
+          stopScanner();
+          app.scannerOpen = false;
+          updateOverlay();
+        }
+      }
+
+      async function decodeUploadedFile(file) {
+        if (!file || state.isReading || state.isUploading) return;
+
+        if (!getZXing()) {
+          setStatus("ZXing CDN の読み込みに失敗しました。", "error");
+          return;
+        }
+
+        if (!file.type || !file.type.startsWith("image/")) {
+          setStatus("画像ファイルを選択してください。", "error");
+          dom.imageInput.value = "";
+          return;
+        }
+
+        state.isUploading = true;
+        setStatus("画像を解析しています...");
+
+        try {
+          const ZXing = getZXing();
+          const mode = app.scanMode;
+          const formats =
+            mode === MODE.QR
+              ? [ZXing.BarcodeFormat.QR_CODE]
+              : [ZXing.BarcodeFormat.CODE_128];
+          const hints = new Map();
+          hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, formats);
+          hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+
+          const reader = new ZXing.BrowserMultiFormatReader(hints, 160);
+          const url = URL.createObjectURL(file);
+          const result = await reader.decodeFromImageUrl(url);
+          URL.revokeObjectURL(url);
+
+          const raw = String(
+            result && result.getText ? result.getText() : "",
+          ).trim();
+          if (!raw) {
+            setStatus("画像からコードを読み取れませんでした。", "error");
+            return;
+          }
+
+          if (mode === MODE.CODE128 && !/^[\x20-\x7E]{6,64}$/.test(raw)) {
+            setStatus("Code128 形式として不正な値でした。", "error");
+            return;
+          }
+
+          app.targetValue = raw;
+          app.detectedValues = [raw];
+          syncInput();
+          setStatus("画像から読み取りが完了しました。", "ok");
+        } catch {
+          setStatus("画像からコードを読み取れませんでした。", "error");
+        } finally {
+          dom.imageInput.value = "";
+          state.isUploading = false;
+        }
+      }
+
+      function onZoomInput(event) {
+        const value = Number(
+          event.target && event.target.value ? event.target.value : zoom.value,
+        );
+        zoom.value = value;
+        if (!state.track) return;
+        state.track
+          .applyConstraints({ advanced: [{ zoom: value }] })
+          .catch(() => {
+            setStatus("この端末ではズームを適用できませんでした。", "error");
+          });
+      }
+
+      function refocusNow() {
+        if (!state.track || !state.useAutoFocus) return;
+        clearAutoFocusTimers();
+        runAutoFocusCycle();
+        setModalStatus("AFを再実行しました。");
+      }
+
+      function clearInput() {
+        app.targetValue = "";
+        app.detectedValues = [];
+        syncInput();
+        setStatus("入力値をクリアしました。");
+      }
+
+      function onKeyDown(event) {
+        if (event.key === "Escape" && app.scannerOpen) cancelScan();
+      }
+
+      dom.modeQrBtn.addEventListener("click", () => setMode(MODE.QR));
+      dom.modeCode128Btn.addEventListener("click", () => setMode(MODE.CODE128));
+      dom.targetInput.addEventListener("input", (event) => {
+        app.targetValue = event.target.value;
+        renderResults();
+      });
+      dom.scanBtn.addEventListener("click", startScan);
+      dom.uploadBtn.addEventListener("click", () => dom.imageInput.click());
+      dom.clearBtn.addEventListener("click", clearInput);
+      dom.imageInput.addEventListener("change", (event) => {
+        const input = event.target;
+        if (!input || !input.files || !input.files.length) return;
+        decodeUploadedFile(input.files[0]);
+      });
+      dom.overlay.addEventListener("click", cancelScan);
+      dom.closeBtn.addEventListener("click", cancelScan);
+      dom.preview
+        .closest(".modal")
+        .addEventListener("click", (event) => event.stopPropagation());
+      dom.zoomSlider.addEventListener("input", onZoomInput);
+      dom.refocusBtn.addEventListener("click", refocusNow);
+      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener("beforeunload", stopScanner);
+
+      setMode(MODE.CODE128);
+      syncInput();
+      applyZoomUi();
+      if (!getZXing()) {
+        setStatus(
+          "ZXing CDN の読み込み中です。接続状況により開始まで時間がかかる場合があります。",
+        );
+      }
+    </script>
+  </body>
+</html>
