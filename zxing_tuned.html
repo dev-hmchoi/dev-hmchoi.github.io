@@ -1,0 +1,1074 @@
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZXing Scanner (QR / Code128)</title>
+  <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+  <style>
+    :root {
+      --bg-a: #f3f8ed;
+      --bg-b: #d6eac7;
+      --card: #ffffff;
+      --ink: #102118;
+      --sub: #3f5647;
+      --line: #bed2c0;
+      --accent: #1f7a4b;
+      --accent-2: #dbf06c;
+      --ok: #12663b;
+      --err: #8c2a20;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 14%, #edf8b0 0, #edf8b000 42%),
+        radial-gradient(circle at 12% 92%, #c2e897 0, #c2e89700 44%),
+        linear-gradient(140deg, var(--bg-a), var(--bg-b));
+      padding: 20px 14px 44px;
+    }
+    .wrap {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 46px rgba(18, 48, 24, 0.14);
+      overflow: hidden;
+      animation: fade-up 300ms ease;
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .head {
+      padding: 20px;
+      border-bottom: 1px solid #e0ebda;
+      background: linear-gradient(110deg, #f8fff2, #f2f9ea);
+    }
+    .head h1 {
+      margin: 0;
+      font-size: clamp(1.15rem, 2.7vw, 1.65rem);
+      letter-spacing: 0.01em;
+    }
+    .head p {
+      margin: 8px 0 0;
+      color: var(--sub);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .body { padding: 18px; display: grid; gap: 14px; }
+    .mode-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .mode-btn {
+      border: 1px solid #b8cbb8;
+      background: #f3f9ef;
+      color: #33503e;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mode-btn.active { background: var(--accent); color: #f7fff9; border-color: #196a3f; }
+    .field label { font-weight: 700; font-size: 0.92rem; display: block; margin-bottom: 6px; }
+    .input-group { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; }
+    .text-input {
+      width: 100%;
+      border: 1px solid #b6c9b8;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 1rem;
+      color: #13261a;
+      outline: none;
+    }
+    .text-input:focus { border-color: #4a905f; box-shadow: 0 0 0 3px rgba(33, 125, 71, 0.17); }
+    .btn { border: 0; border-radius: 12px; padding: 0 14px; min-height: 44px; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
+    .btn-scan { background: var(--accent); color: #f7fff8; min-width: 56px; }
+    .btn-clear { background: #e6ece6; color: #1f3026; }
+    .btn-upload { background: #dbe9ff; color: #17315f; }
+    .file-input { position: absolute; width: 1px; height: 1px; padding: 0; margin:-1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .note {
+      border: 1px solid #d6e2d1;
+      background: #f7fbf4;
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: #3c4f42;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .status { min-height: 24px; font-size: 0.93rem; font-weight: 700; color: #2e5c3d; }
+    .status.error { color: var(--err); }
+    .status.ok { color: var(--ok); }
+    .result-panel {
+      display: none;
+      border: 1px solid #d6e2d1;
+      background: #fbfdf9;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .result-panel.open { display: block; }
+    .result-title { font-size: 0.86rem; font-weight: 700; color: #355241; margin-bottom: 8px; }
+    .result-list { margin: 0; padding-left: 1.2rem; display: grid; gap: 6px; }
+    .result-item { color: #203126; font-size: 0.92rem; line-height: 1.42; word-break: break-all; }
+    .result-item.selected { font-weight: 700; color: #12663b; }
+    .result-meta { color: #607264; font-size: 0.8rem; margin-left: 6px; }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 19, 14, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 50;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      width: min(920px, 100%);
+      max-height: 95vh;
+      overflow: auto;
+      border-radius: 16px;
+      background: #0f1b14;
+      color: #deebde;
+      border: 1px solid #33563d;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+    }
+    dialog.modal { margin: 0; padding: 0; }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-bottom: 1px solid #2d4934;
+      background: #15261d;
+    }
+    .modal-title { margin: 0; font-size: 0.95rem; font-weight: 700; }
+    .modal-close {
+      border: 1px solid #4e6d57;
+      background: #1d3124;
+      color: #e5efe7;
+      border-radius: 10px;
+      min-height: 36px;
+      min-width: 72px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .preview-box {
+      margin: 12px;
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 240px;
+      aspect-ratio: 16 / 10;
+    }
+    video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+    .guide {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px solid var(--accent-2);
+      border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.36);
+      pointer-events: none;
+      width: min(64%, 420px);
+      aspect-ratio: 1 / 1;
+    }
+    .guide.code128 {
+      width: min(88%, 760px);
+      aspect-ratio: 4.8 / 1;
+      border-radius: 10px;
+    }
+    .modal-body { padding: 0 12px 12px; display: grid; gap: 8px; }
+    .camera-tools {
+      display: grid;
+      gap: 8px;
+      border: 1px solid #2f4f38;
+      border-radius: 10px;
+      padding: 8px;
+      background: #122319;
+    }
+    .camera-tools-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .camera-tools label { font-size: 0.82rem; color: #d7e7d9; min-width: 78px; }
+    .zoom-slider { flex: 1; min-width: 140px; }
+    .tool-btn {
+      border: 1px solid #4d7258;
+      background: #1c3526;
+      color: #e4efe5;
+      border-radius: 8px;
+      min-height: 32px;
+      padding: 0 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .tool-note { font-size: 0.78rem; color: #b8d2bc; line-height: 1.4; }
+    .modal-status { min-height: 22px; font-size: 0.9rem; font-weight: 700; color: #cbe7d2; }
+    .modal-status.error { color: #ffc0b8; }
+    .tips { margin: 0; padding-left: 18px; line-height: 1.45; color: #d3e4d6; font-size: 0.86rem; }
+    .modal-foot { border-top: 1px solid #2e4a35; padding: 10px 12px 12px; display: flex; justify-content: flex-end; gap: 8px; }
+    @media (max-width: 760px) {
+      .input-group { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .preview-box { aspect-ratio: 4 / 3; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="head">
+      <h1>ZXing カメラ読取（QR / Code128）</h1>
+      <p>QR は通常のライブ読取、Code128 は長桁・実写ラベルを考慮して、カメラ時も中央横帯を切り出し・拡大・前処理して再試行します。</p>
+    </section>
+    <section class="body">
+      <div class="mode-row" aria-label="読取モード切替">
+        <button id="btnModeQr" class="mode-btn" type="button" aria-pressed="false">QR読取モード</button>
+        <button id="btnModeCode128" class="mode-btn active" type="button" aria-pressed="true">Code128読取モード</button>
+      </div>
+      <div class="field">
+        <label for="targetInput">機種情報 / EID</label>
+        <div class="input-group">
+          <input id="targetInput" class="text-input" type="text" autocomplete="off" placeholder="読取結果をここに反映（手入力可）" />
+          <button id="btnScan" class="btn btn-scan" type="button" aria-label="カメラ起動">SCAN</button>
+          <button id="btnUpload" class="btn btn-upload" type="button" aria-label="画像アップロード">画像</button>
+          <button id="btnClear" class="btn btn-clear" type="button">クリア</button>
+        </div>
+        <input id="imageInput" class="file-input" type="file" accept="image/*" capture="environment" />
+      </div>
+      <div id="statusText" class="status" aria-live="polite">待機中</div>
+      <div id="multiResultPanel" class="result-panel" aria-live="polite">
+        <div class="result-title">検出結果（複数対応）</div>
+        <ol id="multiResultList" class="result-list"></ol>
+      </div>
+      <div class="note">
+        Code128 は <strong>少し離してズーム</strong>、バーコード全体を横長ガイド中央に合わせると成功しやすくなります。画像アップロード時も EID 付近の横帯を自動切り出し、拡大・グレースケール・2値化で再試行します。
+      </div>
+    </section>
+  </main>
+
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <dialog id="scannerDialog" class="modal" aria-labelledby="modalTitle" open>
+      <header class="modal-head">
+        <h2 id="modalTitle" class="modal-title">カメラ読取</h2>
+        <button id="btnClose" class="modal-close" type="button">閉じる</button>
+      </header>
+      <div class="preview-box">
+        <video id="preview" playsinline muted></video>
+        <div id="guide" class="guide code128"></div>
+      </div>
+      <div class="modal-body">
+        <div id="modalStatus" class="modal-status">カメラ起動中...</div>
+        <div class="camera-tools">
+          <div class="camera-tools-row">
+            <label for="zoomSlider">ズーム</label>
+            <input id="zoomSlider" class="zoom-slider" type="range" min="1" max="1" step="0.1" value="1" disabled />
+            <button id="btnRefocus" class="tool-btn" type="button">AF再実行</button>
+          </div>
+          <div id="zoomNote" class="tool-note">ズームは対応端末でのみ利用できます。</div>
+        </div>
+        <ul class="tips">
+          <li>Code128 は近づきすぎず、少し離してズームを上げる</li>
+          <li>横長ガイド中央にバーコード全体を収める</li>
+          <li>反射と影を避ける</li>
+          <li>読めない場合は画像アップロードも試す</li>
+        </ul>
+      </div>
+      <footer class="modal-foot">
+        <button id="btnRetry" class="modal-close" type="button">再試行</button>
+      </footer>
+    </dialog>
+  </div>
+
+  <script>
+    (function () {
+      const MODE = { QR: 'qr', CODE128: 'code128' };
+      const CONFIG = {
+        timeoutMs: 20000,
+        duplicateLockMs: 2000,
+        uploadDecodeTimeoutMs: 9000,
+        frameDecodeTimeoutMs: 3200,
+        code128LoopIntervalMs: 280,
+        // ④ オートフォーカスの再実行間隔を 1 秒へ短縮
+        autoRefocusIntervalMs: 1000,
+        // ① 色反転前処理は毎フレームではなく 3 フレームに 1 回だけ実施
+        invertEveryNFrames: 3,
+        // ④ AF API 応答が返らない端末向けのタイムアウト
+        refocusOpTimeoutMs: 500,
+        modeConfig: {
+          qr: {
+            label: 'QR読取モード',
+            formats: [ZXing.BarcodeFormat.QR_CODE],
+            intervalMs: 120,
+            widthIdeal: 1280,
+            heightIdeal: 720,
+            guideClass: 'guide'
+          },
+          code128: {
+            label: 'Code128読取モード（長桁対応）',
+            formats: [ZXing.BarcodeFormat.CODE_128],
+            intervalMs: 180,
+            widthIdeal: 1920,
+            heightIdeal: 1080,
+            guideClass: 'guide code128'
+          }
+        },
+        uploadCode128Candidates: [
+          { name: 'full-original', rect: [0, 0, 1, 1], scale: 1, grayscale: false, threshold: null },
+          { name: 'eid-band-wide', rect: [0.04, 0.18, 0.92, 0.34], scale: 2.2, grayscale: false, threshold: null },
+          { name: 'eid-band-mid', rect: [0.05, 0.20, 0.90, 0.26], scale: 2.7, grayscale: false, threshold: null },
+          { name: 'eid-band-tight', rect: [0.06, 0.22, 0.88, 0.20], scale: 3.1, grayscale: false, threshold: null },
+          { name: 'eid-band-gray', rect: [0.05, 0.20, 0.90, 0.26], scale: 3.0, grayscale: true, threshold: null, contrast: 42 },
+          { name: 'eid-band-bw', rect: [0.05, 0.20, 0.90, 0.26], scale: 3.0, grayscale: true, threshold: 150, contrast: 58 },
+          { name: 'eid-band-low', rect: [0.04, 0.24, 0.92, 0.18], scale: 3.2, grayscale: true, threshold: 145, contrast: 55 }
+        ],
+        cameraCode128Candidates: [
+          { name: 'camera-band-wide', rect: [0.08, 0.36, 0.84, 0.24], scale: 2.8, grayscale: false, threshold: null },
+          { name: 'camera-band-mid', rect: [0.10, 0.39, 0.80, 0.18], scale: 3.2, grayscale: false, threshold: null },
+          { name: 'camera-band-tight', rect: [0.12, 0.41, 0.76, 0.14], scale: 3.6, grayscale: false, threshold: null },
+          { name: 'camera-band-gray', rect: [0.10, 0.39, 0.80, 0.18], scale: 3.6, grayscale: true, threshold: null, contrast: 42 },
+          { name: 'camera-band-bw', rect: [0.10, 0.39, 0.80, 0.18], scale: 3.8, grayscale: true, threshold: 150, contrast: 60 },
+          { name: 'camera-band-low', rect: [0.08, 0.42, 0.84, 0.12], scale: 4.0, grayscale: true, threshold: 145, contrast: 62 }
+        ]
+      };
+
+      const el = {
+        btnModeQr: document.getElementById('btnModeQr'),
+        btnModeCode128: document.getElementById('btnModeCode128'),
+        targetInput: document.getElementById('targetInput'),
+        btnScan: document.getElementById('btnScan'),
+        btnUpload: document.getElementById('btnUpload'),
+        imageInput: document.getElementById('imageInput'),
+        btnClear: document.getElementById('btnClear'),
+        statusText: document.getElementById('statusText'),
+        multiResultPanel: document.getElementById('multiResultPanel'),
+        multiResultList: document.getElementById('multiResultList'),
+        overlay: document.getElementById('overlay'),
+        btnClose: document.getElementById('btnClose'),
+        btnRetry: document.getElementById('btnRetry'),
+        preview: document.getElementById('preview'),
+        guide: document.getElementById('guide'),
+        modalTitle: document.getElementById('modalTitle'),
+        modalStatus: document.getElementById('modalStatus'),
+        zoomSlider: document.getElementById('zoomSlider'),
+        zoomNote: document.getElementById('zoomNote'),
+        btnRefocus: document.getElementById('btnRefocus')
+      };
+
+      const state = {
+        scanMode: MODE.CODE128,
+        isReading: false,
+        isUploading: false,
+        scannerOpen: false,
+        lastValue: '',
+        lastAppliedAt: 0,
+        timeoutId: 0,
+        controls: null,
+        reader: null,
+        hasCameraSupport: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+        mediaTrack: null,
+        zoomSupported: false,
+        scanSessionId: 0,
+        code128LoopBusy: false,
+        code128LoopTimer: 0,
+        lastRefocusAt: 0,
+        // ① カメラ処理用フレームカウンタ（3フレームに1回の反転前処理制御に使用）
+        cameraFrameCounter: 0
+      };
+
+      function setStatus(message, kind) {
+        el.statusText.textContent = message;
+        el.statusText.className = 'status' + (kind ? ' ' + kind : '');
+      }
+      function setModalStatus(message, kind) {
+        el.modalStatus.textContent = message;
+        el.modalStatus.className = 'modal-status' + (kind ? ' ' + kind : '');
+      }
+      function clearDetectedResults() {
+        state.lastDetectedValues = [];
+        if (el.multiResultList) el.multiResultList.textContent = '';
+        if (el.multiResultPanel) el.multiResultPanel.classList.remove('open');
+      }
+      function renderDetectedResults(results, selectedValue) {
+        if (!el.multiResultPanel || !el.multiResultList) return;
+        const items = Array.isArray(results) ? results.filter(Boolean) : [];
+        state.lastDetectedValues = items;
+        el.multiResultList.textContent = '';
+        if (!items.length) {
+          el.multiResultPanel.classList.remove('open');
+          return;
+        }
+        items.forEach(function (item, index) {
+          const li = document.createElement('li');
+          const value = String(item.value || '').trim();
+          li.className = 'result-item' + (value && value === selectedValue ? ' selected' : '');
+          li.textContent = value || ('候補' + String(index + 1));
+          const meta = [];
+          if (item.candidate) meta.push(String(item.candidate));
+          if (item.occurrences > 1) meta.push('一致 ' + String(item.occurrences) + ' 回');
+          if (value && value === selectedValue) meta.push('採用');
+          if (meta.length) {
+            const span = document.createElement('span');
+            span.className = 'result-meta';
+            span.textContent = '（' + meta.join(' / ') + '）';
+            li.appendChild(span);
+          }
+          el.multiResultList.appendChild(li);
+        });
+        el.multiResultPanel.classList.add('open');
+      }
+      function setMode(mode) {
+        state.scanMode = mode;
+        const isQr = mode === MODE.QR;
+        el.btnModeQr.classList.toggle('active', isQr);
+        el.btnModeCode128.classList.toggle('active', !isQr);
+        el.btnModeQr.setAttribute('aria-pressed', String(isQr));
+        el.btnModeCode128.setAttribute('aria-pressed', String(!isQr));
+        const cfg = CONFIG.modeConfig[mode];
+        el.guide.className = cfg.guideClass;
+        clearDetectedResults();
+        setStatus(cfg.label + 'を選択しました。', '');
+      }
+      function clearTimer() {
+        if (state.timeoutId) {
+          window.clearTimeout(state.timeoutId);
+          state.timeoutId = 0;
+        }
+        if (state.code128LoopTimer) {
+          window.clearTimeout(state.code128LoopTimer);
+          state.code128LoopTimer = 0;
+        }
+      }
+      function openModal() {
+        el.overlay.classList.add('open');
+        el.overlay.setAttribute('aria-hidden', 'false');
+        state.scannerOpen = true;
+      }
+      function closeModal() {
+        el.overlay.classList.remove('open');
+        el.overlay.setAttribute('aria-hidden', 'true');
+        state.scannerOpen = false;
+      }
+      function normalizeStartError(err) {
+        const name = err && err.name ? err.name : '';
+        if (name === 'NotAllowedError' || name === 'SecurityError') return 'カメラの利用が許可されていません。';
+        if (name === 'NotFoundError' || name === 'DevicesNotFoundError') return 'カメラを起動できませんでした。（未搭載または未検出）';
+        if (name === 'NotReadableError') return 'カメラが他アプリで使用中のため起動できません。';
+        return 'カメラを起動できませんでした。';
+      }
+      function validateValue(mode, text) {
+        if (!text) return '読み取った値が不正です。';
+        if (mode === MODE.CODE128) {
+          if (text.length < 6 || text.length > 64) return 'Code128 の桁数が想定外です。';
+          const printableAscii = /^[\x20-\x7E]+$/;
+          if (!printableAscii.test(text)) return 'Code128 の文字種が不正です。';
+        }
+        return '';
+      }
+      function isDuplicate(value) {
+        const now = Date.now();
+        return value === state.lastValue && now - state.lastAppliedAt < CONFIG.duplicateLockMs;
+      }
+      function getDecodeHints(mode) {
+        const cfg = CONFIG.modeConfig[mode];
+        const hints = new Map();
+        hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, cfg.formats);
+        hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+        return hints;
+      }
+      function clamp01(value) { return Math.max(0, Math.min(1, value)); }
+      function isLikelyNumericCode128(text) { return /^\d{16,40}$/.test(text); }
+      function isLikelyEid(text) { return /^89\d{18,30}$/.test(text); }
+      function scoreDecodedValue(mode, text) {
+        if (!text) return 0;
+        if (mode !== MODE.CODE128) return text.length;
+        let score = 0;
+        if (isLikelyEid(text)) score += 1000;
+        if (isLikelyNumericCode128(text)) score += 300;
+        if (/^[\x20-\x7E]+$/.test(text)) score += 50;
+        score += Math.min(text.length, 64);
+        return score;
+      }
+      function stopScanner() {
+        clearTimer();
+        state.scanSessionId += 1;
+        state.code128LoopBusy = false;
+        if (state.controls && typeof state.controls.stop === 'function') state.controls.stop();
+        if (state.reader && typeof state.reader.reset === 'function') state.reader.reset();
+        const stream = el.preview.srcObject;
+        if (stream && typeof stream.getTracks === 'function') {
+          stream.getTracks().forEach((track) => track.stop());
+        }
+        el.preview.srcObject = null;
+        state.controls = null;
+        state.reader = null;
+        state.mediaTrack = null;
+        state.zoomSupported = false;
+        el.zoomSlider.disabled = true;
+        el.zoomSlider.min = '1';
+        el.zoomSlider.max = '1';
+        el.zoomSlider.step = '0.1';
+        el.zoomSlider.value = '1';
+        el.zoomNote.textContent = 'ズームは対応端末でのみ利用できます。';
+        state.isReading = false;
+      }
+      function cancelScan() {
+        stopScanner();
+        closeModal();
+        setStatus('読取を中止しました。必要に応じて再試行してください。', '');
+      }
+      function createCanvas(width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(width));
+        canvas.height = Math.max(1, Math.round(height));
+        return canvas;
+      }
+      function applyImageFilterToCanvas(canvas, options) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+        const contrast = Number(options.contrast || 0);
+        const factor = contrast ? (259 * (contrast + 255)) / (255 * (259 - contrast)) : 1;
+        for (let i = 0; i < data.length; i += 4) {
+          let r = data[i];
+          let g = data[i + 1];
+          let b = data[i + 2];
+          if (options.grayscale || Number.isFinite(options.threshold)) {
+            const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+            r = gray; g = gray; b = gray;
+          }
+          if (contrast) {
+            r = factor * (r - 128) + 128;
+            g = factor * (g - 128) + 128;
+            b = factor * (b - 128) + 128;
+          }
+          if (Number.isFinite(options.threshold)) {
+            const bw = ((r + g + b) / 3) >= options.threshold ? 255 : 0;
+            r = bw; g = bw; b = bw;
+          }
+          if (options.invert) {
+            // ① ARGB 反転相当（Web では RGB ピクセル上で 255 - 値 を適用）
+            r = 255 - r;
+            g = 255 - g;
+            b = 255 - b;
+          }
+          data[i] = Math.max(0, Math.min(255, r));
+          data[i + 1] = Math.max(0, Math.min(255, g));
+          data[i + 2] = Math.max(0, Math.min(255, b));
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+      function buildProcessedImage(source, sourceWidth, sourceHeight, spec) {
+        const sx = Math.round(clamp01(spec.rect[0]) * sourceWidth);
+        const sy = Math.round(clamp01(spec.rect[1]) * sourceHeight);
+        const sw = Math.max(1, Math.round(clamp01(spec.rect[2]) * sourceWidth));
+        const sh = Math.max(1, Math.round(clamp01(spec.rect[3]) * sourceHeight));
+        const safeSw = Math.min(sw, sourceWidth - sx);
+        const safeSh = Math.min(sh, sourceHeight - sy);
+        const canvas = createCanvas(safeSw * (spec.scale || 1), safeSh * (spec.scale || 1));
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.imageSmoothingEnabled = !(spec.scale >= 2.4);
+        ctx.drawImage(source, sx, sy, safeSw, safeSh, 0, 0, canvas.width, canvas.height);
+        if (spec.grayscale || Number.isFinite(spec.threshold) || spec.contrast) {
+          applyImageFilterToCanvas(canvas, spec);
+        }
+        const img = new Image();
+        img.src = canvas.toDataURL('image/png');
+        img.alt = spec.name || 'candidate';
+        return img;
+      }
+      function waitImageReady(image) {
+        if (image.complete && image.naturalWidth > 0) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+          image.onload = () => resolve();
+          image.onerror = () => reject(new Error('前処理画像の生成に失敗しました。'));
+        });
+      }
+      function withTimeout(promise, ms) {
+        return new Promise((resolve, reject) => {
+          const timer = window.setTimeout(() => reject(new Error('decode timeout')), ms);
+          promise.then((value) => { window.clearTimeout(timer); resolve(value); }).catch((err) => { window.clearTimeout(timer); reject(err); });
+        });
+      }
+      function decodeFromElement(reader, element) {
+        if (typeof reader.decodeFromImageElement === 'function') {
+          return reader.decodeFromImageElement(element);
+        }
+        if (typeof reader.decodeFromImageUrl === 'function') {
+          return reader.decodeFromImageUrl(element.src || element.currentSrc || '');
+        }
+        if (typeof reader.decodeFromImage === 'function') {
+          return reader.decodeFromImage(undefined, element.src || element.currentSrc || '');
+        }
+        return Promise.reject(new Error('Image decode API not supported'));
+      }
+      async function loadImageFromFile(file) {
+        return new Promise((resolve, reject) => {
+          const objectUrl = URL.createObjectURL(file);
+          const img = new Image();
+          img.onload = function () {
+            URL.revokeObjectURL(objectUrl);
+            resolve(img);
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error('画像の読み込みに失敗しました。'));
+          };
+          img.src = objectUrl;
+        });
+      }
+      function getUploadCandidates(mode, img) {
+        if (mode !== MODE.CODE128) return [{ name: 'full-original', image: img }];
+        return CONFIG.uploadCode128Candidates.map((spec) => ({
+          name: spec.name,
+          image: buildProcessedImage(img, img.naturalWidth, img.naturalHeight, spec)
+        }));
+      }
+      function getCameraCandidates(video, frameCounter) {
+        // ① 3フレームに1回だけ色反転前処理を有効化し、性能劣化を抑える
+        const invertThisFrame = frameCounter % CONFIG.invertEveryNFrames === 0;
+        return CONFIG.cameraCode128Candidates.map((spec) => {
+          const tuned = invertThisFrame ? Object.assign({}, spec, { invert: true }) : spec;
+          return {
+            name: invertThisFrame ? spec.name + '-inv3' : spec.name,
+            image: buildProcessedImage(video, video.videoWidth, video.videoHeight, tuned)
+          };
+        });
+      }
+
+      function normalizeDecodeResults(raw) {
+        if (!raw) return [];
+        if (Array.isArray(raw)) return raw.filter(Boolean);
+        if (typeof raw[Symbol.iterator] === 'function' && typeof raw !== 'string') return Array.from(raw).filter(Boolean);
+        return [raw];
+      }
+
+      function sourceToCanvas(element) {
+        if (!element) throw new Error('Source element not found');
+        if (element instanceof HTMLCanvasElement) return element;
+        const width = Number(element.videoWidth || element.naturalWidth || element.width || 0);
+        const height = Number(element.videoHeight || element.naturalHeight || element.height || 0);
+        if (!width || !height) throw new Error('Invalid source size');
+        const canvas = createCanvas(width, height);
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(element, 0, 0, width, height);
+        return canvas;
+      }
+
+      function createBinaryBitmapFromElement(element) {
+        const canvas = sourceToCanvas(element);
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const luminanceSource = new ZXing.RGBLuminanceSource(imageData.data, canvas.width, canvas.height);
+        return new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(luminanceSource));
+      }
+
+      function createMultipleReader(hints) {
+        if (!(ZXing && ZXing.MultiFormatReader && ZXing.GenericMultipleBarcodeReader)) return null;
+        const multiFormatReader = new ZXing.MultiFormatReader();
+        if (typeof multiFormatReader.setHints === 'function') multiFormatReader.setHints(hints);
+        return new ZXing.GenericMultipleBarcodeReader(multiFormatReader);
+      }
+
+      async function decodeFromElementMulti(mode, element, singleReader) {
+        // ② DecodeHandler.java の GenericMultipleBarcodeReader.decodeMultiple() 相当
+        //    を Web で優先実行し、未対応環境では single decode にフォールバックする。
+        const hints = getDecodeHints(mode);
+        try {
+          const bitmap = createBinaryBitmapFromElement(element);
+          const multipleReader = createMultipleReader(hints);
+          if (multipleReader && typeof multipleReader.decodeMultiple === 'function') {
+            let multiple;
+            try {
+              multiple = multipleReader.decodeMultiple(bitmap, hints);
+            } catch (firstError) {
+              multiple = multipleReader.decodeMultiple(bitmap);
+            }
+            const normalized = normalizeDecodeResults(multiple);
+            if (normalized.length) return normalized;
+          }
+        } catch (e) {
+          // fallback below
+        }
+        if (singleReader && typeof singleReader.decodeMultipleFromImageElement === 'function') {
+          const multiple = await singleReader.decodeMultipleFromImageElement(element);
+          const normalized = normalizeDecodeResults(multiple);
+          if (normalized.length) return normalized;
+        }
+        const workingReader = singleReader || new ZXing.BrowserMultiFormatReader(hints, CONFIG.modeConfig[mode].intervalMs);
+        const single = await decodeFromElement(workingReader, element);
+        return normalizeDecodeResults(single);
+      }
+
+      async function withOpTimeout(operation, ms, timeoutMessage) {
+        return withTimeout(operation, ms).catch((err) => {
+          const message = err && err.message ? err.message : '';
+          if (message === 'decode timeout') {
+            throw new Error(timeoutMessage || 'operation timeout');
+          }
+          throw err;
+        });
+      }
+      function applyDecodedResult(mode, value, sourceName, details) {
+        const validationError = validateValue(mode, value);
+        if (validationError) {
+          setStatus(validationError, 'error');
+          setModalStatus(validationError, 'error');
+          return false;
+        }
+        const results = details && Array.isArray(details.values) ? details.values : [{ value: value, candidate: sourceName, occurrences: 1 }];
+        renderDetectedResults(results, value);
+        if (isDuplicate(value)) return true;
+        state.lastValue = value;
+        state.lastAppliedAt = Date.now();
+        el.targetInput.value = value;
+        const multiSuffix = results.length > 1 ? ' / 複数検出 ' + String(results.length) + ' 件' : '';
+        setStatus('読み取りが完了しました。' + (sourceName ? '（' + sourceName + '）' : '') + multiSuffix, 'ok');
+        setModalStatus('読み取りが完了しました。' + (results.length > 1 ? ' 複数候補を一覧表示しています。' : ''), '');
+        stopScanner();
+        closeModal();
+        return true;
+      }
+      async function initCameraControls(mode) {
+        const stream = el.preview.srcObject;
+        if (!(stream && typeof stream.getVideoTracks === 'function')) return;
+        const track = stream.getVideoTracks()[0];
+        if (!track) return;
+        state.mediaTrack = track;
+        try {
+          // ③ 連続AFを使わず、バーコード向けに 1-shot AF を優先
+          const baseFocus = 'single-shot';
+          await track.applyConstraints({ advanced: [{ focusMode: baseFocus }] });
+        } catch (e) {
+          // ③ single-shot 非対応端末は auto にフォールバック
+          try { await track.applyConstraints({ advanced: [{ focusMode: 'auto' }] }); } catch (ignore) {}
+        }
+        const caps = typeof track.getCapabilities === 'function' ? track.getCapabilities() : null;
+        if (caps && typeof caps.zoom === 'object') {
+          state.zoomSupported = true;
+          const min = Number(caps.zoom.min || 1);
+          const max = Number(caps.zoom.max || 1);
+          const step = Number(caps.zoom.step || 0.1);
+          const preferred = mode === MODE.CODE128 ? Math.min(max, Math.max(min, 2.2)) : min;
+          el.zoomSlider.disabled = false;
+          el.zoomSlider.min = String(min);
+          el.zoomSlider.max = String(max);
+          el.zoomSlider.step = String(step > 0 ? step : 0.1);
+          el.zoomSlider.value = String(preferred);
+          el.zoomNote.textContent = mode === MODE.CODE128
+            ? 'Code128 は少し離してズームを上げるとピントが合いやすくなります。'
+            : 'QR は中央に合わせてください。';
+          try { await track.applyConstraints({ advanced: [{ zoom: preferred }] }); } catch (e) {}
+        } else {
+          el.zoomNote.textContent = mode === MODE.CODE128
+            ? 'この端末はズーム未対応です。少し離して中央で撮影してください。'
+            : 'この端末はズーム未対応です。';
+        }
+      }
+      async function applyZoom(value) {
+        if (!state.mediaTrack || !state.zoomSupported) return;
+        const zoom = Number(value);
+        if (!Number.isFinite(zoom)) return;
+        try {
+          await state.mediaTrack.applyConstraints({ advanced: [{ zoom: zoom }] });
+        } catch (e) {
+          setStatus('この端末ではズーム調整を適用できませんでした。', 'error');
+        }
+      }
+      async function refocusNow() {
+        if (!state.mediaTrack) return;
+        try {
+          // ④ コールバック相当の応答欠落に備え、各 AF 操作をタイムアウト監視
+          await withOpTimeout(
+            state.mediaTrack.applyConstraints({ advanced: [{ focusMode: 'single-shot' }] }),
+            CONFIG.refocusOpTimeoutMs,
+            'AF single-shot timeout'
+          );
+          state.lastRefocusAt = Date.now();
+          setModalStatus('AFを再実行しました。バーコードを中央で保持してください。', '');
+        } catch (e) {
+          // ④ single-shot が失敗/無応答でも auto を試して復帰性を確保
+          try {
+            await withOpTimeout(
+              state.mediaTrack.applyConstraints({ advanced: [{ focusMode: 'auto' }] }),
+              CONFIG.refocusOpTimeoutMs,
+              'AF auto fallback timeout'
+            );
+            state.lastRefocusAt = Date.now();
+            setModalStatus('AFを再実行しました（autoフォールバック）。', '');
+          } catch (fallbackErr) {
+            setModalStatus('この端末ではAF再実行に未対応です。距離を少し離して再試行してください。', 'error');
+          }
+        }
+      }
+
+      async function tryDecodeCandidates(mode, candidates, timeoutMs) {
+        let best = null;
+        const uniqueMap = new Map();
+        for (let i = 0; i < candidates.length; i += 1) {
+          const candidate = candidates[i];
+          try {
+            await waitImageReady(candidate.image);
+            const reader = new ZXing.BrowserMultiFormatReader(getDecodeHints(mode), CONFIG.modeConfig[mode].intervalMs);
+            const results = await withTimeout(decodeFromElementMulti(mode, candidate.image, reader), timeoutMs);
+            if (typeof reader.reset === 'function') reader.reset();
+            let validCount = 0;
+            for (let j = 0; j < results.length; j += 1) {
+              const value = String(results[j] && results[j].getText ? results[j].getText() : '').trim();
+              const validationError = validateValue(mode, value);
+              if (validationError) continue;
+              validCount += 1;
+              const score = scoreDecodedValue(mode, value);
+              const existing = uniqueMap.get(value);
+              if (existing) {
+                existing.occurrences += 1;
+                if (score > existing.score) {
+                  existing.score = score;
+                  existing.candidate = candidate.name;
+                }
+              } else {
+                uniqueMap.set(value, { value: value, score: score, candidate: candidate.name, occurrences: 1 });
+              }
+              if (!best || score > best.score) {
+                best = { value: value, score: score, candidate: candidate.name };
+              }
+            }
+            if (validCount > 1 || (best && isLikelyEid(best.value))) {
+              break;
+            }
+          } catch (e) {
+            // continue next candidate
+          }
+        }
+        const values = Array.from(uniqueMap.values()).sort(function (a, b) { return (b.score - a.score) || (b.occurrences - a.occurrences) || (b.value.length - a.value.length); });
+        if (!best && values.length) best = { value: values[0].value, score: values[0].score, candidate: values[0].candidate };
+        return { best: best, values: values };
+      }
+
+      async function startQrScan() {
+        const mode = MODE.QR;
+        const cfg = CONFIG.modeConfig[mode];
+        const hints = getDecodeHints(mode);
+        state.reader = new ZXing.BrowserMultiFormatReader(hints, cfg.intervalMs);
+        state.controls = await state.reader.decodeFromConstraints(
+          {
+            audio: false,
+            video: {
+              facingMode: { ideal: 'environment' },
+              width: { ideal: cfg.widthIdeal },
+              height: { ideal: cfg.heightIdeal },
+              frameRate: { ideal: 30, max: 30 },
+              focusMode: { ideal: 'auto' }
+            }
+          },
+          el.preview,
+          (result, err) => {
+            if (!state.isReading) return;
+            if (result) {
+              const value = String(result.getText ? result.getText() : '').trim();
+              applyDecodedResult(mode, value, 'live');
+              return;
+            }
+            if (err && !(err instanceof ZXing.NotFoundException)) {
+              setModalStatus('読取中: ' + (err.name || 'エラー'), '');
+            }
+          }
+        );
+        await initCameraControls(mode);
+      }
+
+      async function startCode128CameraScan() {
+        const mode = MODE.CODE128;
+        const cfg = CONFIG.modeConfig[mode];
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            facingMode: { ideal: 'environment' },
+            width: { ideal: cfg.widthIdeal },
+            height: { ideal: cfg.heightIdeal },
+            frameRate: { ideal: 30, max: 30 },
+            // ③ 連続AFは使わず single-shot 優先
+            focusMode: { ideal: 'single-shot' }
+          }
+        });
+        el.preview.srcObject = stream;
+        await el.preview.play();
+        await initCameraControls(mode);
+        state.lastRefocusAt = Date.now();
+        setModalStatus('バーコード解析中... 少し離してズームを上げ、中央で静止してください。', '');
+        const sessionId = state.scanSessionId;
+        state.cameraFrameCounter = 0;
+
+        const loop = async () => {
+          if (!state.isReading || state.scanSessionId !== sessionId) return;
+          if (state.code128LoopBusy) {
+            state.code128LoopTimer = window.setTimeout(loop, CONFIG.code128LoopIntervalMs);
+            return;
+          }
+          if (!el.preview.videoWidth || !el.preview.videoHeight || el.preview.readyState < 2) {
+            state.code128LoopTimer = window.setTimeout(loop, CONFIG.code128LoopIntervalMs);
+            return;
+          }
+          state.code128LoopBusy = true;
+          try {
+            state.cameraFrameCounter += 1;
+            const decodeSummary = await tryDecodeCandidates(
+              mode,
+              getCameraCandidates(el.preview, state.cameraFrameCounter),
+              CONFIG.frameDecodeTimeoutMs
+            );
+            if (decodeSummary && decodeSummary.best && state.isReading && state.scanSessionId === sessionId) {
+              const finished = applyDecodedResult(mode, decodeSummary.best.value, decodeSummary.best.candidate, decodeSummary);
+              if (finished) return;
+            }
+            const now = Date.now();
+            if (now - state.lastRefocusAt > CONFIG.autoRefocusIntervalMs) {
+              await refocusNow();
+            }
+          } finally {
+            state.code128LoopBusy = false;
+            if (state.isReading && state.scanSessionId === sessionId) {
+              state.code128LoopTimer = window.setTimeout(loop, CONFIG.code128LoopIntervalMs);
+            }
+          }
+        };
+        state.code128LoopTimer = window.setTimeout(loop, 150);
+      }
+
+      async function startScan() {
+        if (state.isReading) return;
+        if (!window.ZXing) {
+          setStatus('ZXing の読み込みに失敗しました。ネットワーク接続を確認してください。', 'error');
+          return;
+        }
+        if (!window.isSecureContext && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+          setStatus('カメラ読取は HTTPS または localhost で実行してください。', 'error');
+          return;
+        }
+        if (!state.hasCameraSupport) {
+          setStatus('この端末はカメラに対応していません。画像アップロードまたは手入力をご利用ください。', 'error');
+          return;
+        }
+        const mode = state.scanMode;
+        const cfg = CONFIG.modeConfig[mode];
+        openModal();
+        state.isReading = true;
+        state.scanSessionId += 1;
+        const currentSessionId = state.scanSessionId;
+        el.modalTitle.textContent = cfg.label;
+        setModalStatus('カメラ起動中...', '');
+        setStatus('読取を開始しました。', '');
+        try {
+          if (mode === MODE.QR) {
+            await startQrScan();
+          } else {
+            await startCode128CameraScan();
+          }
+          state.timeoutId = window.setTimeout(() => {
+            if (!state.isReading || state.scanSessionId !== currentSessionId) return;
+            const msg = mode === MODE.CODE128
+              ? 'Code128 を読み取れませんでした。少し離してズームを上げるか、画像アップロードをお試しください。'
+              : 'コードを読み取れませんでした。位置や明るさを調整して再度お試しください。';
+            setModalStatus(msg, 'error');
+            setStatus(msg, 'error');
+          }, CONFIG.timeoutMs);
+        } catch (err) {
+          const msg = normalizeStartError(err);
+          setModalStatus(msg, 'error');
+          setStatus(msg + ' 手入力をご利用ください。', 'error');
+          stopScanner();
+          closeModal();
+        }
+      }
+
+      async function decodeUploadedFile(file) {
+        if (!file || state.isReading || state.isUploading) return;
+        if (!window.ZXing) {
+          setStatus('ZXing の読み込みに失敗しました。ネットワーク接続を確認してください。', 'error');
+          return;
+        }
+        if (!file.type || !file.type.startsWith('image/')) {
+          setStatus('画像ファイルを選択してください。', 'error');
+          el.imageInput.value = '';
+          return;
+        }
+        state.isUploading = true;
+        try {
+          setStatus('画像を解析しています...', '');
+          const img = await loadImageFromFile(file);
+          const mode = state.scanMode;
+          const candidates = getUploadCandidates(mode, img);
+          const decodeSummary = await tryDecodeCandidates(mode, candidates, CONFIG.uploadDecodeTimeoutMs);
+          if (!(decodeSummary && decodeSummary.best)) {
+            const msg = mode === MODE.CODE128
+              ? '画像からコードを読み取れませんでした。EIDバーコードだけが大きく写る画像で再試行してください。'
+              : '画像からコードを読み取れませんでした。別画像で再試行してください。';
+            clearDetectedResults();
+            setStatus(msg, 'error');
+            return;
+          }
+          state.lastValue = decodeSummary.best.value;
+          state.lastAppliedAt = Date.now();
+          el.targetInput.value = decodeSummary.best.value;
+          renderDetectedResults(decodeSummary.values, decodeSummary.best.value);
+          const multiSuffix = decodeSummary.values.length > 1 ? ' / 複数検出 ' + String(decodeSummary.values.length) + ' 件' : '';
+          setStatus('画像から読み取りが完了しました。候補: ' + decodeSummary.best.candidate + multiSuffix, 'ok');
+        } catch (err) {
+          const reason = err && err.message ? '（' + err.message + '）' : '';
+          setStatus('画像からコードを読み取れませんでした。別画像で再試行してください。' + reason, 'error');
+        } finally {
+          el.imageInput.value = '';
+          state.isUploading = false;
+        }
+      }
+
+      el.btnModeQr.addEventListener('click', function () { setMode(MODE.QR); });
+      el.btnModeCode128.addEventListener('click', function () { setMode(MODE.CODE128); });
+      el.btnScan.addEventListener('click', function () { startScan(); });
+      el.btnUpload.addEventListener('click', function () { el.imageInput.click(); });
+      el.zoomSlider.addEventListener('input', function (event) {
+        const target = event.target;
+        if (!target) return;
+        applyZoom(target.value);
+      });
+      el.btnRefocus.addEventListener('click', function () { refocusNow(); });
+      el.imageInput.addEventListener('change', function (event) {
+        const input = event.target;
+        if (!input || !input.files || input.files.length === 0) return;
+        decodeUploadedFile(input.files[0]);
+      });
+      el.btnRetry.addEventListener('click', function () {
+        stopScanner();
+        startScan();
+      });
+      el.btnClose.addEventListener('click', function () { cancelScan(); });
+      el.btnClear.addEventListener('click', function () {
+        el.targetInput.value = '';
+        clearDetectedResults();
+        setStatus('入力値をクリアしました。', '');
+      });
+      el.overlay.addEventListener('click', function (event) {
+        if (event.target === el.overlay) cancelScan();
+      });
+      window.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && state.scannerOpen) cancelScan();
+      });
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden && state.isReading) cancelScan();
+      });
+      window.addEventListener('beforeunload', function () {
+        if (state.isReading) stopScanner();
+      });
+
+      setMode(MODE.CODE128);
+      if (!state.hasCameraSupport) {
+        setStatus('この端末はカメラに対応していません。画像ボタンからアップロード読取できます。', '');
+      }
+    })();
+  </script>
+</body>
+</html>
