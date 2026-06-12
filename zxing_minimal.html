@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZXing Minimal Barcode Scanner</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 16px; }
+    video { border: 1px solid #ccc; max-width: 100%; height: auto; }
+    #result { margin-top: 12px; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <h1>ZXing Minimal Scanner</h1>
+  <video id="video" width="640" height="480" muted playsinline></video>
+  <div style="margin-top:8px">
+    <button id="scanBtn">Scan</button>
+    <button id="clearBtn" disabled>Clear</button>
+  </div>
+  <div id="result">결과: <span id="code">없음</span></div>
+
+  <!-- ZXing CDN (UMD build) -->
+  <script src="https://unpkg.com/@zxing/library@0.18.6/umd/index.min.js"></script>
+  <script>
+    (function () {
+      const resultEl = document.getElementById('code');
+      const scanBtn = document.getElementById('scanBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const video = document.getElementById('video');
+
+      let codeReader = null;
+      let currentDeviceId = undefined;
+
+      async function initReader() {
+        if (!codeReader) codeReader = new ZXing.BrowserMultiFormatReader();
+        try {
+          const devices = await codeReader.listVideoInputDevices();
+          currentDeviceId = devices && devices.length ? devices[0].deviceId : undefined;
+        } catch (e) {
+          console.error('장치 목록 조회 실패', e);
+        }
+      }
+
+      function stopMediaTracks() {
+        const stream = video.srcObject;
+        if (stream) {
+          stream.getTracks().forEach(t => t.stop());
+          video.srcObject = null;
+        }
+      }
+
+      function stopScan() {
+        try {
+          if (codeReader) codeReader.reset();
+        } catch (e) {
+          console.warn(e);
+        }
+        stopMediaTracks();
+        scanBtn.disabled = false;
+        clearBtn.disabled = true;
+      }
+
+      async function startScan() {
+        scanBtn.disabled = true;
+        clearBtn.disabled = false;
+        resultEl.textContent = '스캔중...';
+        try {
+          await initReader();
+          codeReader.decodeFromVideoDevice(currentDeviceId, 'video', (result, err) => {
+            if (result) {
+              resultEl.textContent = result.text || (result.getText ? result.getText() : String(result));
+              stopScan();
+            }
+            if (err && !(err instanceof ZXing.NotFoundException)) {
+              console.error(err);
+            }
+          });
+        } catch (e) {
+          console.error(e);
+          resultEl.textContent = '카메라 접근 실패: ' + e;
+          stopScan();
+        }
+      }
+
+      scanBtn.addEventListener('click', startScan);
+      clearBtn.addEventListener('click', () => {
+        stopScan();
+        resultEl.textContent = '없음';
+      });
+
+      // 초기화 (리더만 생성, 자동 시작하지 않음)
+      initReader();
+    })();
+  </script>
+</body>
+</html>
